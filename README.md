@@ -25,7 +25,7 @@ Designed and engineered with a modern responsive corporate layout, customizable 
 
 | Feature | Description |
 |---------|-------------|
-| 🧊 **3D Product Showcase** | WebGL canvas viewport displaying 3D models (Insulated pipe, PUF sandwich panel, and Brushed steel lift cabin) with 360-degree rotation drag, wireframe toggles, and light adjustments. |
+| 🧊 **3D Product Showcase** | WebGL canvas viewport displaying 3D models of 15 industrial components (insulated pipe, PUF panel, lift cabin, scaffolding coupler, water tube bundle, sprinkler, cable tray, roof deck, spray gun, exhaust fan, cold room, sliding gate, sandblasting nozzle, acoustic panel, and AHU) with 360-degree rotation, auto-rotation, wireframe toggles, light adjustments, and dynamic specifications. |
 | 🎛️ **Dual-Mode Theme** | Fully integrated Dark/Light mode theme support with preference saving in browser localStorage. |
 | 📊 **Client Workspace** | Online estimate calculator for manpower and structural tasks + active project status timeline tracker. |
 | 🗃️ **Multi-Image Carousel** | Service cards utilizing Swiper slider layouts showing multiple detailed project gallery photos. |
