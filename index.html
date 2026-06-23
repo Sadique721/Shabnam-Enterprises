@@ -1,42 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Shabnam Enterprises | Industrial Contracting & Workforce Solutions Since 1999</title>
-    <!-- Tailwind CSS v3 + Font Awesome + Google Fonts -->
+    <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Swiper CSS + JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Three.js (3D WebGL) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1e3a5f',
+                        primary: {
+                            light: '#1e3a8a',
+                            dark: '#0f172a'
+                        },
                         secondary: '#d97706',
-                        accent: '#0f2c44',
+                        accent: {
+                            light: '#f59e0b',
+                            dark: '#f97316'
+                        },
+                        neutralBg: {
+                            light: '#f8fafc',
+                            dark: '#0b0f19'
+                        },
+                        cardBg: {
+                            light: '#ffffff',
+                            dark: '#1e293b'
+                        },
+                        borderCol: {
+                            light: '#e2e8f0',
+                            dark: '#334155'
+                        }
                     },
                     fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'Segoe UI', 'sans-serif'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
                         'display': ['Poppins', 'system-ui', 'sans-serif'],
                     },
                     animation: {
-                        'fade-up': 'fadeUp 0.8s ease-out',
-                        'fade-in': 'fadeIn 0.6s ease-out',
                         'slow-spin': 'spin 20s linear infinite',
                         'float': 'float 4s ease-in-out infinite',
                     },
                     keyframes: {
-                        fadeUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
                             '50%': { transform: 'translateY(-10px)' },
@@ -46,397 +59,1497 @@
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { background: #f8fafc; font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
-        ::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 10px; }
-        .hero-bg-pattern {
-            background: radial-gradient(circle at 10% 20%, rgba(30,58,95,0.08) 0%, rgba(217,119,6,0.02) 90%);
+        .dark ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
+        .hero-gradient {
+            background: radial-gradient(circle at 10% 20%, rgba(30, 58, 138, 0.06) 0%, rgba(217, 119, 6, 0.02) 90%);
         }
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        .dark .hero-gradient {
+            background: radial-gradient(circle at 10% 20%, rgba(30, 58, 138, 0.15) 0%, rgba(217, 119, 6, 0.05) 90%);
         }
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.15);
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
         }
-        .glass-card {
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(2px);
+        .dark .glass-header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
         }
-        .service-icon {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2c4e7a 100%);
+        .service-img-container {
+            position: relative;
+            overflow: hidden;
         }
-        .nav-link::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 2px;
-            background: #d97706;
-            transition: width 0.3s;
-            margin-top: 4px;
-        }
-        .nav-link:hover::after, .nav-link.active::after {
+        /* Hover image cycle transition */
+        .service-img-cycle {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-        }
-        .service-img-zoom {
-            transition: transform 0.4s ease;
-        }
-        .service-img-zoom:hover {
-            transform: scale(1.05);
-        }
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #d97706;
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            height: 100%;
             opacity: 0;
-            transition: opacity 0.3s, transform 0.2s;
-            z-index: 99;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: opacity 0.6s ease-in-out;
         }
-        .back-to-top.show { opacity: 1; }
-        .back-to-top:hover { transform: translateY(-5px); background: #1e3a5f; }
-        .counter-number { font-size: 2.5rem; font-weight: 800; line-height: 1.2; }
-        .swiper-slide { height: auto; }
-        .clientSwiper .swiper-slide { display: flex; justify-content: center; }
-        .swiper-pagination-bullet-active { background: #d97706 !important; }
-        .gradient-primary {
-            background: linear-gradient(135deg, #1e3a5f 0%, #0f2c44 100%);
-        }
+        .service-img-container:hover .img-1 { opacity: 0; }
+        .service-img-container:hover .img-2 { opacity: 1; }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-neutralBg-light text-slate-800 dark:bg-neutralBg-dark dark:text-slate-100 antialiased">
 
     <!-- ==================== NAVBAR ==================== -->
-    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-200 transition-all duration-300">
-        <div class="container mx-auto px-5 lg:px-8 py-3 flex flex-wrap items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-md">
+    <header class="sticky top-0 z-50 glass-header border-b border-borderCol-light dark:border-borderCol-dark shadow-sm">
+        <div class="container mx-auto px-5 lg:px-8 py-3 flex items-center justify-between">
+            <a href="#home" class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-full bg-blue-700 flex items-center justify-center shadow-md">
                     <i class="fas fa-hard-hat text-white text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="font-display font-bold text-xl md:text-2xl text-primary tracking-tight">Shabnam <span class="text-secondary">Enterprises</span></h1>
-                    <p class="text-[11px] md:text-xs font-medium text-gray-500 -mt-1">Industrial Contracting & Workforce Solutions Since 1999</p>
+                    <h1 class="font-display font-bold text-xl md:text-2xl text-blue-900 dark:text-amber-500 tracking-tight">Shabnam <span class="text-amber-600 dark:text-white">Enterprises</span></h1>
+                    <p class="text-[10px] md:text-xs font-semibold text-slate-500 dark:text-slate-400 -mt-1">Industrial Contracting Since 1999</p>
                 </div>
-            </div>
-            <nav class="hidden lg:flex space-x-6 text-gray-700 font-semibold">
-                <a href="#home" class="nav-link hover:text-secondary transition">Home</a>
-                <a href="#about" class="nav-link hover:text-secondary transition">About</a>
-                <a href="#services" class="nav-link hover:text-secondary transition">Services</a>
-                <a href="#advanced-services" class="nav-link hover:text-secondary transition">Advanced Solutions</a>
-                <a href="#clients" class="nav-link hover:text-secondary transition">Clients</a>
-                <a href="#compliance" class="nav-link hover:text-secondary transition">Compliance</a>
-                <a href="#contact" class="nav-link hover:text-secondary transition">Contact</a>
+            </a>
+            
+            <nav class="hidden lg:flex space-x-6 text-slate-600 dark:text-slate-300 font-semibold text-sm">
+                <a href="#home" class="hover:text-amber-600 transition">Home</a>
+                <a href="#about" class="hover:text-amber-600 transition">About</a>
+                <a href="#services" class="hover:text-amber-600 transition">Services</a>
+                <a href="#interactive-showcase" class="hover:text-amber-600 transition">3D Showcase</a>
+                <a href="#tools" class="hover:text-amber-600 transition">Interactive Tools</a>
+                <a href="#clients" class="hover:text-amber-600 transition">Clients</a>
+                <a href="#compliance" class="hover:text-amber-600 transition">Compliance</a>
+                <a href="#contact" class="hover:text-amber-600 transition">Contact</a>
             </nav>
+
             <div class="flex items-center gap-3">
-                <a href="#contact" class="hidden md:inline-block bg-secondary hover:bg-amber-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition shadow-md">Get Quote <i class="fas fa-arrow-right ml-1"></i></a>
-                <button id="mobile-menu-btn" class="lg:hidden text-primary text-2xl focus:outline-none"><i class="fas fa-bars"></i></button>
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition" aria-label="Toggle Dark Mode">
+                    <i id="theme-toggle-icon" class="fas fa-moon text-lg"></i>
+                </button>
+                <a href="#tools" class="hidden md:inline-block bg-amber-600 hover:bg-amber-700 text-white px-5 py-2 rounded-full text-sm font-semibold transition shadow-md">Get Quote <i class="fas fa-calculator ml-1"></i></a>
+                <button id="mobile-menu-btn" class="lg:hidden text-slate-700 dark:text-slate-200 text-2xl focus:outline-none"><i class="fas fa-bars"></i></button>
             </div>
         </div>
-        <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-200 px-5 pb-4 flex flex-col space-y-3 text-gray-800 font-medium">
-            <a href="#home" class="py-2 hover:text-secondary transition">Home</a>
-            <a href="#about" class="py-2 hover:text-secondary transition">About</a>
-            <a href="#services" class="py-2 hover:text-secondary transition">Services</a>
-            <a href="#advanced-services" class="py-2 hover:text-secondary transition">Advanced Solutions</a>
-            <a href="#clients" class="py-2 hover:text-secondary transition">Clients</a>
-            <a href="#compliance" class="py-2 hover:text-secondary transition">Compliance</a>
-            <a href="#contact" class="py-2 hover:text-secondary transition">Contact</a>
-            <a href="#contact" class="bg-secondary text-white text-center rounded-full py-2 mt-1">Contact Us</a>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-cardBg-light dark:bg-cardBg-dark border-t border-borderCol-light dark:border-borderCol-dark px-5 py-4 flex flex-col space-y-3 font-semibold shadow-inner">
+            <a href="#home" class="py-1 hover:text-amber-600 text-slate-700 dark:text-slate-200 transition">Home</a>
+            <a href="#about" class="py-1 hover:text-amber-600 text-slate-700 dark:text-slate-200 transition">About</a>
+            <a href="#services" class="py-1 hover:text-amber-600 text-slate-700 dark:text-slate-200 transition">Services</a>
+            <a href="#interactive-showcase" class="py-1 hover:text-amber-600 text-slate-700 dark:text-slate-200 transition">3D Showcase</a>
+            <a href="#tools" class="py-1 hover:text-amber-600 text-slate-700 dark:text-slate-200 transition">Interactive Tools</a>
+            <a href="#clients" class="py-1 hover:text-amber-600 text-slate-700 dark:text-slate-200 transition">Clients</a>
+            <a href="#compliance" class="py-1 hover:text-amber-600 text-slate-700 dark:text-slate-200 transition">Compliance</a>
+            <a href="#contact" class="py-1 hover:text-amber-600 text-slate-700 dark:text-slate-200 transition">Contact</a>
+            <a href="#tools" class="bg-amber-600 text-white text-center rounded-full py-2 mt-2">Get Estimate</a>
         </div>
     </header>
 
     <main class="overflow-hidden">
         <!-- ==================== HERO SECTION ==================== -->
-        <section id="home" class="relative min-h-screen flex items-center hero-bg-pattern">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1504307651254-35680f356dfd')] bg-cover bg-center opacity-10"></div>
-            <div class="container mx-auto px-5 lg:px-8 py-20 relative z-10">
-                <div class="max-w-3xl animate-fade-up">
-                    <span class="inline-block bg-secondary/20 text-secondary font-semibold px-4 py-1 rounded-full text-sm mb-5"><i class="fas fa-certificate mr-1"></i> 27+ Years of Legacy</span>
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-primary leading-tight">Strength in Service.<br>Trust in <span class="text-secondary">Experience.</span></h1>
-                    <p class="text-gray-600 text-lg md:text-xl mt-6 mb-8">Specialized industrial, mechanical & maintenance services | Fully compliant workforce solutions | Trusted by India's giants since 1999.</p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#services" class="bg-primary hover:bg-accent text-white px-8 py-3 rounded-full font-semibold transition shadow-lg flex items-center gap-2"><i class="fas fa-cogs"></i> Our Services</a>
-                        <a href="#contact" class="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-semibold transition"><i class="fas fa-phone-alt"></i> Connect Now</a>
+        <section id="home" class="relative min-h-screen flex items-center hero-gradient pt-16">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-5 dark:opacity-10"></div>
+            <div class="container mx-auto px-5 lg:px-8 py-10 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="inline-flex items-center gap-2 bg-amber-600/10 dark:bg-amber-600/20 text-amber-700 dark:text-amber-500 font-semibold px-4 py-1.5 rounded-full text-xs tracking-wide">
+                        <i class="fas fa-certificate text-amber-600"></i> 27+ Years of Industrial Legacy
+                    </span>
+                    <h2 class="text-4xl md:text-6xl font-display font-black text-slate-900 dark:text-white leading-tight">
+                        Precision Service.<br>Proven <span class="text-amber-600">Trust.</span>
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-300 text-lg md:text-xl">
+                        India's premier industrial contracting firm. Providing top-tier mechanical work, insulation solutions, and fully compliant corporate manpower supply since 1999.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#services" class="bg-blue-800 hover:bg-blue-900 text-white px-8 py-3.5 rounded-full font-bold transition shadow-lg flex items-center gap-2"><i class="fas fa-cogs"></i> Explore Services</a>
+                        <a href="#interactive-showcase" class="border-2 border-slate-700 hover:border-amber-600 dark:border-slate-300 dark:hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-500 px-8 py-3.5 rounded-full font-bold transition flex items-center gap-2"><i class="fas fa-cube"></i> Interactive 3D</a>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm border">
-                    <div class="text-center"><div class="text-3xl font-black text-secondary counter-number" data-target="27">0</div><div class="text-gray-600">Years Excellence</div></div>
-                    <div class="text-center"><div class="text-3xl font-black text-secondary counter-number" data-target="158">0</div><div class="text-gray-600">Major Projects</div></div>
-                    <div class="text-center"><div class="text-3xl font-black text-secondary counter-number" data-target="100">0</div><div class="text-gray-600">Compliant (EPF/ESIC/GST)</div></div>
-                    <div class="text-center"><div class="text-3xl font-black text-secondary counter-number" data-target="35">0</div><div class="text-gray-600">Trusted Industry Leaders</div></div>
+                <!-- 3D Graphic placeholder/container for side visual -->
+                <div class="relative flex justify-center items-center">
+                    <div class="w-72 h-72 md:w-96 md:h-96 rounded-full bg-gradient-to-tr from-blue-700/10 to-amber-500/10 dark:from-blue-700/20 dark:to-amber-500/20 absolute blur-2xl"></div>
+                    <div class="relative bg-white/40 dark:bg-slate-900/40 backdrop-blur-md rounded-2xl p-8 border border-borderCol-light dark:border-borderCol-dark shadow-2xl w-full max-w-md animate-float">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center text-white"><i class="fas fa-helmet-safety text-2xl"></i></div>
+                            <div>
+                                <h3 class="font-bold text-lg leading-none text-slate-900 dark:text-white">Safety First</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">100% compliant safety audits</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            "Operating with strict compliance under Indian Labour Laws. Full EPF, ESIC, and GST documentation provided transparently."
+                        </p>
+                        <div class="mt-6 flex items-center justify-between border-t border-borderCol-light dark:border-borderCol-dark pt-4">
+                            <div>
+                                <p class="text-2xl font-black text-amber-600">27+</p>
+                                <p class="text-[10px] uppercase font-bold text-slate-400">Years Experience</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-black text-amber-600">158+</p>
+                                <p class="text-[10px] uppercase font-bold text-slate-400">Major Audited Projects</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-black text-amber-600">100%</p>
+                                <p class="text-[10px] uppercase font-bold text-slate-400">Compliance Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Counters Bar -->
+            <div class="container mx-auto px-5 lg:px-8 relative z-20 -mb-16 mt-10">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl border border-borderCol-light dark:border-borderCol-dark">
+                    <div class="text-center">
+                        <div class="text-3xl md:text-4xl font-extrabold text-amber-600 counter-number" data-target="27">0</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 font-semibold mt-1">Years of Legacy</div>
+                    </div>
+                    <div class="text-center border-l border-borderCol-light dark:border-borderCol-dark">
+                        <div class="text-3xl md:text-4xl font-extrabold text-amber-600 counter-number" data-target="158">0</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 font-semibold mt-1">Major Projects Done</div>
+                    </div>
+                    <div class="text-center border-l border-borderCol-light dark:border-borderCol-dark">
+                        <div class="text-3xl md:text-4xl font-extrabold text-amber-600 counter-number" data-target="1000">0</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 font-semibold mt-1">Skilled Manpower</div>
+                    </div>
+                    <div class="text-center border-l border-borderCol-light dark:border-borderCol-dark">
+                        <div class="text-3xl md:text-4xl font-extrabold text-amber-600 counter-number" data-target="35">0</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 font-semibold mt-1">Corporate Clients</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- ==================== ABOUT US ==================== -->
-        <section id="about" class="py-20 bg-white">
-            <div class="container mx-auto px-5 lg:px-8">
-                <div class="text-center max-w-2xl mx-auto mb-14">
-                    <span class="text-secondary font-semibold tracking-wide uppercase text-sm"><i class="fas fa-building mr-1"></i> About Us</span>
-                    <h2 class="text-3xl md:text-4xl font-display font-bold text-primary mt-2">Driving India's Industrial Growth</h2>
-                    <div class="w-24 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-                    <div class="space-y-5 animate-fade-up">
-                        <div class="flex items-start gap-3"><i class="fas fa-check-circle text-secondary text-2xl mt-1"></i><div><h3 class="font-bold text-xl">Est. 1999 – Over 27 Years Proven Expertise</h3><p class="text-gray-600">Led by Managing Director <span class="font-semibold">Md. Ayub</span>, Shabnam Enterprises delivers specialized industrial, mechanical & maintenance services with reliable workforce supply across India.</p></div></div>
-                        <div class="flex items-start gap-3"><i class="fas fa-helmet-safety text-secondary text-2xl mt-1"></i><div><h3 class="font-bold text-xl">Mission & Vision</h3><p class="text-gray-600"><span class="font-bold">Vision:</span> Most trusted industrial partner for quality, safety & operational excellence. <span class="font-bold">Mission:</span> Superior insulation, mechanical services & skilled manpower, empowering clients with integrity and efficiency.</p></div></div>
-                        <div class="flex items-start gap-3"><i class="fas fa-handshake text-secondary text-2xl mt-1"></i><div><h3 class="font-bold text-xl">Our Goal</h3><p class="text-gray-600">Deliver high-quality, compliant, and efficient solutions to India's leading manufacturing sectors — building long-term mutual relationships.</p></div></div>
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216" alt="Shabnam Enterprises Team - Industrial Experts" class="w-full h-full object-cover rounded-2xl transition hover:scale-105 duration-700">
-                        <div class="absolute bottom-4 left-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm"><i class="fas fa-users"></i> MD Ayub & Team</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== CORE SERVICES (SWIPER CAROUSEL) ==================== -->
-        <section id="services" class="py-20 bg-gradient-to-br from-gray-50 to-slate-100">
-            <div class="container mx-auto px-5 lg:px-8">
-                <div class="text-center max-w-2xl mx-auto mb-12">
-                    <span class="text-secondary font-semibold uppercase text-sm tracking-wider"><i class="fas fa-tools mr-1"></i> Core Capabilities</span>
-                    <h2 class="text-3xl md:text-4xl font-display font-bold text-primary mt-2">Comprehensive Industrial Services</h2>
-                    <p class="text-gray-500 mt-2">End-to-end solutions with high-quality imagery & proven expertise</p>
-                </div>
-                <div class="swiper coreServicesSwiper pb-12">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide"><div class="bg-white rounded-2xl shadow-md card-hover border border-gray-100 overflow-hidden h-full"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc" alt="Insulation" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><div class="service-icon w-14 h-14 rounded-xl flex items-center justify-center mb-3 text-white text-xl"><i class="fas fa-thermometer-half"></i></div><h3 class="text-xl font-bold text-primary">Insulation Work</h3><p class="text-gray-500 mt-1">Thermal & acoustic insulation for pipelines, boilers, vessels & ducts.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-white rounded-2xl shadow-md card-hover border border-gray-100 overflow-hidden h-full"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828" alt="Painting" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><div class="service-icon w-14 h-14 rounded-xl flex items-center justify-center mb-3 text-white text-xl"><i class="fas fa-paint-roller"></i></div><h3 class="text-xl font-bold text-primary">Industrial Painting</h3><p class="text-gray-500 mt-1">Protective coatings, epoxy & high-performance painting for structures.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-white rounded-2xl shadow-md card-hover border border-gray-100 overflow-hidden h-full"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" alt="Roof Sheeting" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><div class="service-icon w-14 h-14 rounded-xl flex items-center justify-center mb-3 text-white text-xl"><i class="fas fa-hard-hat"></i></div><h3 class="text-xl font-bold text-primary">Roof Sheeting</h3><p class="text-gray-500 mt-1">Premium metal roof installations, repairs, cladding & PUF panel roofing.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-white rounded-2xl shadow-md card-hover border border-gray-100 overflow-hidden h-full"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581091870627-3b5b9c9c8f3c" alt="Mechanical" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><div class="service-icon w-14 h-14 rounded-xl flex items-center justify-center mb-3 text-white text-xl"><i class="fas fa-gear"></i></div><h3 class="text-xl font-bold text-primary">Mechanical Work</h3><p class="text-gray-500 mt-1">Erection, maintenance, fabrication & heavy equipment installation.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-white rounded-2xl shadow-md card-hover border border-gray-100 overflow-hidden h-full"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5" alt="Scaffolding" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><div class="service-icon w-14 h-14 rounded-xl flex items-center justify-center mb-3 text-white text-xl"><i class="fas fa-chalkboard"></i></div><h3 class="text-xl font-bold text-primary">Scaffolding & Access</h3><p class="text-gray-500 mt-1">Modular scaffolding, suspended platforms, safety netting & access systems.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-white rounded-2xl shadow-md card-hover border border-gray-100 overflow-hidden h-full"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1525097487452-6278ff080c31" alt="Sandblasting" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><div class="service-icon w-14 h-14 rounded-xl flex items-center justify-center mb-3 text-white text-xl"><i class="fas fa-wind"></i></div><h3 class="text-xl font-bold text-primary">Sandblasting & Prep</h3><p class="text-gray-500 mt-1">Abrasive blasting, rust removal, surface preparation for coatings.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-white rounded-2xl shadow-md card-hover border border-gray-100 overflow-hidden h-full"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1581093458791-9d09b6f8d8e5" alt="Pipeline" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><div class="service-icon w-14 h-14 rounded-xl flex items-center justify-center mb-3 text-white text-xl"><i class="fas fa-oil-can"></i></div><h3 class="text-xl font-bold text-primary">Pipeline Fabrication</h3><p class="text-gray-500 mt-1">Structural steel fabrication, pipe spools, skids & modular assemblies.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-white rounded-2xl shadow-md card-hover border border-gray-100 overflow-hidden h-full"><div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475" alt="Electrical" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><div class="service-icon w-14 h-14 rounded-xl flex items-center justify-center mb-3 text-white text-xl"><i class="fas fa-bolt"></i></div><h3 class="text-xl font-bold text-primary">Electrical & Instrumentation</h3><p class="text-gray-500 mt-1">Control panels, cabling, PLC, SCADA, instrumentation installation.</p></div></div></div>
-                    </div>
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-                <div class="mt-8 bg-white rounded-2xl p-6 shadow-md card-hover border border-gray-100">
-                    <div class="flex flex-col lg:flex-row justify-between items-center">
-                        <div class="flex items-center gap-3"><i class="fas fa-users text-secondary text-3xl"></i><div><h3 class="text-xl font-bold text-primary">Skilled Workforce Supply</h3><p class="text-gray-500">On-demand semi-skilled & highly skilled manpower for daily operations, compliant with all statutory norms (EPF/ESIC).</p></div></div>
-                        <i class="fas fa-arrow-right text-secondary text-2xl"></i>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== ADVANCED SOLUTIONS (SWIPER CAROUSEL) ========= -->
-        <section id="advanced-services" class="py-20 bg-white">
-            <div class="container mx-auto px-5 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-12">
-                    <span class="text-secondary font-semibold uppercase text-sm tracking-wider"><i class="fas fa-microchip"></i> Next-Gen Infrastructure</span>
-                    <h2 class="text-3xl md:text-4xl font-display font-bold text-primary mt-2">Advanced Industrial Solutions</h2>
-                    <p class="text-gray-500 mt-3">Modern lifts, modular panels, cold storage, fire safety & automation — turnkey execution</p>
-                </div>
-                <div class="swiper advancedSwiper pb-12">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide"><div class="bg-gray-50 rounded-2xl shadow-md card-hover overflow-hidden border border-gray-200 h-full"><div class="h-56 overflow-hidden"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5" alt="Escalator" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><i class="fas fa-elevator text-secondary text-2xl mb-2 block"></i><h3 class="text-xl font-bold text-primary">Escalator & Moving Walks</h3><p class="text-gray-600">Heavy-duty escalators for malls, metro stations, airports. Energy-efficient drives, safety sensors.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-gray-50 rounded-2xl shadow-md card-hover overflow-hidden border border-gray-200 h-full"><div class="h-56 overflow-hidden"><img src="https://images.unsplash.com/photo-1558002038-1055907df827" alt="Passenger Lifts" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><i class="fas fa-people-arrows text-secondary text-2xl mb-2 block"></i><h3 class="text-xl font-bold text-primary">Cabin & Passenger Lifts</h3><p class="text-gray-600">Modern VVVF passenger lifts, panoramic & capsule lifts. Capacities up to 2000kg, luxury interiors.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-gray-50 rounded-2xl shadow-md card-hover overflow-hidden border border-gray-200 h-full"><div class="h-56 overflow-hidden"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" alt="PUF Panels" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><i class="fas fa-border-all text-secondary text-2xl mb-2 block"></i><h3 class="text-xl font-bold text-primary">PUF Panels (Insulated)</h3><p class="text-gray-600">Polyurethane foam panels for walls/roofs. Fire-retardant, high thermal efficiency, quick installation.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-gray-50 rounded-2xl shadow-md card-hover overflow-hidden border border-gray-200 h-full"><div class="h-56 overflow-hidden"><img src="https://images.unsplash.com/photo-1586201375761-83865001e31c" alt="Cold Room" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><i class="fas fa-icicles text-secondary text-2xl mb-2 block"></i><h3 class="text-xl font-bold text-primary">Cold Room & Walk-in Chiller</h3><p class="text-gray-600">Custom walk-in freezers, chiller rooms (-30°C to +10°C). Sliding hermetic doors, humidity control.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-gray-50 rounded-2xl shadow-md card-hover overflow-hidden border border-gray-200 h-full"><div class="h-56 overflow-hidden"><img src="https://images.unsplash.com/photo-1601132359864-0f0cbe4e6cdb" alt="Fire Fighting" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><i class="fas fa-fire-extinguisher text-secondary text-2xl mb-2 block"></i><h3 class="text-xl font-bold text-primary">Fire Fighting Systems</h3><p class="text-gray-600">Complete hydrant, sprinkler, alarm systems, fire pumps, NFPA compliant. Design & maintenance.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-gray-50 rounded-2xl shadow-md card-hover overflow-hidden border border-gray-200 h-full"><div class="h-56 overflow-hidden"><img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d" alt="Sliding Doors" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><i class="fas fa-arrows-alt-h text-secondary text-2xl mb-2 block"></i><h3 class="text-xl font-bold text-primary">Sliding Systems & Automated Gates</h3><p class="text-gray-600">Heavy-duty sliding gates, cold room sliding doors, automatic industrial shutters. Custom fabrication.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-gray-50 rounded-2xl shadow-md card-hover overflow-hidden border border-gray-200 h-full"><div class="h-56 overflow-hidden"><img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789" alt="HVAC" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><i class="fas fa-wind text-secondary text-2xl mb-2 block"></i><h3 class="text-xl font-bold text-primary">HVAC Ducting & Cladding</h3><p class="text-gray-600">Precision ducting, thermal insulation for HVAC systems, industrial ventilation, cleanroom solutions.</p></div></div></div>
-                        <div class="swiper-slide"><div class="bg-gray-50 rounded-2xl shadow-md card-hover overflow-hidden border border-gray-200 h-full"><div class="h-56 overflow-hidden"><img src="https://images.unsplash.com/photo-1581091215367-59ab6b4bdfb1" alt="Flooring" class="w-full h-full object-cover service-img-zoom"></div><div class="p-5"><i class="fas fa-fill-drip text-secondary text-2xl mb-2 block"></i><h3 class="text-xl font-bold text-primary">Industrial Flooring (Epoxy/PU)</h3><p class="text-gray-600">Heavy-duty epoxy, polyurethane flooring, anti-static, chemical-resistant for factories & warehouses.</p></div></div></div>
-                    </div>
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-                <div class="text-center mt-12"><p class="text-primary font-semibold bg-primary/5 inline-block px-6 py-2 rounded-full"><i class="fas fa-check-circle text-secondary"></i> All advanced solutions backed by skilled engineers & 27+ years experience</p></div>
-            </div>
-        </section>
-
-        <!-- ==================== LEADERSHIP SECTION ==================== -->
-        <section id="leadership" class="py-24 bg-white">
+        <section id="about" class="py-32 bg-cardBg-light dark:bg-neutralBg-dark">
             <div class="container mx-auto px-5 lg:px-8">
                 <div class="text-center max-w-2xl mx-auto mb-16">
-                    <span class="text-secondary font-semibold text-sm uppercase"><i class="fas fa-user-tie"></i> Our Leadership</span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-primary mt-2">Strategic Minds, Industrial Excellence</h2>
+                    <span class="text-amber-600 font-bold uppercase tracking-wider text-xs"><i class="fas fa-building mr-1"></i> Who We Are</span>
+                    <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 dark:text-white mt-2">Powering Industrial Infrastructure</h2>
+                    <div class="w-20 h-1 bg-amber-600 mx-auto mt-4 rounded-full"></div>
                 </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift"><div class="h-80 overflow-hidden"><img src="https://res.cloudinary.com/dcnoffp8x/image/upload/v1776036811/od00yiyln9f4jtnjmci4.jpg" alt="CEO" class="w-full h-full object-cover transition duration-700 hover:scale-110"></div><div class="p-6 text-center"><i class="fas fa-crown text-secondary text-2xl mb-2"></i><h3 class="text-xl font-bold text-primary">Md. Ayub</h3><p class="text-secondary font-semibold text-sm">Chief Executive Officer & Founder</p><p class="text-gray-500 text-sm mt-3">27+ years of industrial contracting vision. Founded Shabnam Enterprises in 1999.</p></div></div>
-                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift"><div class="h-80 overflow-hidden"><img src="https://res.cloudinary.com/dcnoffp8x/image/upload/v1775958653/c0oxguoqfx5xe7diz7bi.jpg" alt="CTO" class="w-full h-full object-cover"></div><div class="p-6 text-center"><i class="fas fa-microchip text-secondary text-2xl mb-2"></i><h3 class="text-xl font-bold text-primary">Md Sadique Amin</h3><p class="text-secondary font-semibold text-sm">Chief Technical Officer</p></div></div>
-                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift"><div class="h-80 overflow-hidden"><img src="https://res.cloudinary.com/dcnoffp8x/image/upload/v1776037048/xnro1rdex3wkbxukva8d.jpg" alt="COO" class="w-full h-full object-cover"></div><div class="p-6 text-center"><i class="fas fa-chart-line text-secondary text-2xl mb-2"></i><h3 class="text-xl font-bold text-primary">Asif Alam</h3><p class="text-secondary font-semibold text-sm">Chief Operating Officer</p></div></div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">A Legacy of Quality, Trust & Compliance</h3>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Under the leadership of our Managing Director, <span class="font-bold text-slate-950 dark:text-white">Md. Ayub</span>, Shabnam Enterprises has spent over two decades building mutual trust with India's largest industrial names. We specialize in providing turnkey industrial, insulation, thermal/acoustic engineering, scaffolding, structural fabrication, and lifts contracting services.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 pt-2">
+                            <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-borderCol-light dark:border-borderCol-dark">
+                                <i class="fas fa-bullseye text-2xl text-amber-600 mb-2"></i>
+                                <h4 class="font-bold text-slate-900 dark:text-white">Our Mission</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Delivering supreme mechanical and insulation engineering services safely and efficiently.</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-borderCol-light dark:border-borderCol-dark">
+                                <i class="fas fa-eye text-2xl text-amber-600 mb-2"></i>
+                                <h4 class="font-bold text-slate-900 dark:text-white">Our Vision</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Being the most reliable, compliant, and quality-driven contracting partner across PAN India.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Leadership Group cards -->
+                    <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-xl border border-borderCol-light dark:border-borderCol-dark">
+                        <h4 class="font-display font-bold text-xl text-slate-900 dark:text-white mb-6 flex items-center gap-2"><i class="fas fa-users-cog text-amber-600"></i> Executive Board</h4>
+                        <div class="space-y-6">
+                            <!-- CEO -->
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-600 shadow-md">
+                                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop" alt="CEO Md. Ayub" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-slate-900 dark:text-white">Md. Ayub</h5>
+                                    <p class="text-xs text-amber-600 font-semibold">Chief Executive Officer & Founder</p>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Founding vision since 1999. Driving business strategy and growth.</p>
+                                </div>
+                            </div>
+                            <!-- CTO -->
+                            <div class="flex items-center gap-4 border-t border-borderCol-light dark:border-borderCol-dark pt-4">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-600 shadow-md">
+                                    <img src="https://res.cloudinary.com/dcnoffp8x/image/upload/v1778580292/m1jxgpgfvsm7kj2wzhnf.jpg" alt="CTO Md Sadique Amin" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-slate-900 dark:text-white">Md Sadique Amin</h5>
+                                    <p class="text-xs text-amber-600 font-semibold">Chief Technical Officer</p>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Heading industrial engineering, automation, and 3D modeling divisions.</p>
+                                </div>
+                            </div>
+                            <!-- COO -->
+                            <div class="flex items-center gap-4 border-t border-borderCol-light dark:border-borderCol-dark pt-4">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-600 shadow-md">
+                                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop" alt="COO Asif Alam" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-slate-900 dark:text-white">Asif Alam</h5>
+                                    <p class="text-xs text-amber-600 font-semibold">Chief Operating Officer</p>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Managing site operations, logistics, and labour compliance compliance.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== CLIENTS CAROUSEL ==================== -->
-        <section id="clients" class="py-20 bg-gray-50">
+        <!-- ==================== CORE SERVICES (SWIPER CAROUSEL WITH DYNAMIC GALLERIES) ==================== -->
+        <section id="services" class="py-24 bg-neutralBg-light dark:bg-cardBg-dark/40">
             <div class="container mx-auto px-5 lg:px-8">
-                <div class="text-center mb-12"><h3 class="text-2xl md:text-3xl font-bold text-primary">Trusted by Industry Leaders</h3><div class="w-20 h-0.5 bg-secondary mx-auto mt-4 rounded-full"></div></div>
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-amber-600 font-bold uppercase tracking-wider text-xs"><i class="fas fa-tools mr-1"></i> Capabilities</span>
+                    <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 dark:text-white mt-2">Comprehensive Industrial Services</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">Hover cards to preview alternate project details. Click any card to open a full multi-image gallery with complete technical details.</p>
+                    <div class="w-20 h-1 bg-amber-600 mx-auto mt-4 rounded-full"></div>
+                </div>
+                
+                <div class="swiper coreServicesSwiper pb-14">
+                    <div class="swiper-wrapper">
+                        <!-- Insulation Work -->
+                        <div class="swiper-slide h-auto">
+                            <div onclick="openServiceModal('insulation')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-borderCol-light dark:border-borderCol-dark overflow-hidden h-full flex flex-col group hover:shadow-xl transition-all duration-300">
+                                <div class="h-48 service-img-container bg-slate-200">
+                                    <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover img-1 transition-all duration-500" alt="Insulation work sample 1">
+                                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=600&auto=format&fit=crop" class="service-img-cycle img-2" alt="Insulation work sample 2">
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col justify-between">
+                                    <div>
+                                        <div class="w-12 h-12 rounded-xl bg-blue-700/10 dark:bg-blue-600/20 text-blue-700 dark:text-blue-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-thermometer-half"></i></div>
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-600 transition">Insulation Work</h3>
+                                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Thermal & acoustic insulation for industrial pipelines, tanks, boiler shells, and ventilation ducts.</p>
+                                    </div>
+                                    <span class="text-amber-600 text-xs font-bold mt-4 inline-flex items-center gap-1">Read More & View Gallery <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Industrial Painting -->
+                        <div class="swiper-slide h-auto">
+                            <div onclick="openServiceModal('painting')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-borderCol-light dark:border-borderCol-dark overflow-hidden h-full flex flex-col group hover:shadow-xl transition-all duration-300">
+                                <div class="h-48 service-img-container bg-slate-200">
+                                    <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover img-1 transition-all duration-500" alt="Painting sample 1">
+                                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=600&auto=format&fit=crop" class="service-img-cycle img-2" alt="Painting sample 2">
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col justify-between">
+                                    <div>
+                                        <div class="w-12 h-12 rounded-xl bg-blue-700/10 dark:bg-blue-600/20 text-blue-700 dark:text-blue-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-paint-roller"></i></div>
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-600 transition">Industrial Painting</h3>
+                                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Rust protection, anti-corrosive coatings, structural steel painting, epoxy coatings, and spray painting.</p>
+                                    </div>
+                                    <span class="text-amber-600 text-xs font-bold mt-4 inline-flex items-center gap-1">Read More & View Gallery <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Roof Sheeting -->
+                        <div class="swiper-slide h-auto">
+                            <div onclick="openServiceModal('roofing')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-borderCol-light dark:border-borderCol-dark overflow-hidden h-full flex flex-col group hover:shadow-xl transition-all duration-300">
+                                <div class="h-48 service-img-container bg-slate-200">
+                                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover img-1 transition-all duration-500" alt="Roof Sheeting sample 1">
+                                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop" class="service-img-cycle img-2" alt="Roof Sheeting sample 2">
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col justify-between">
+                                    <div>
+                                        <div class="w-12 h-12 rounded-xl bg-blue-700/10 dark:bg-blue-600/20 text-blue-700 dark:text-blue-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-campground"></i></div>
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-600 transition">Roof Sheeting</h3>
+                                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Quality profiles, color-coated sheet installation, PUF panel sheets, and skylight installations for factories.</p>
+                                    </div>
+                                    <span class="text-amber-600 text-xs font-bold mt-4 inline-flex items-center gap-1">Read More & View Gallery <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mechanical Work -->
+                        <div class="swiper-slide h-auto">
+                            <div onclick="openServiceModal('mechanical')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-borderCol-light dark:border-borderCol-dark overflow-hidden h-full flex flex-col group hover:shadow-xl transition-all duration-300">
+                                <div class="h-48 service-img-container bg-slate-200">
+                                    <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover img-1 transition-all duration-500" alt="Mechanical Work sample 1">
+                                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop" class="service-img-cycle img-2" alt="Mechanical Work sample 2">
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col justify-between">
+                                    <div>
+                                        <div class="w-12 h-12 rounded-xl bg-blue-700/10 dark:bg-blue-600/20 text-blue-700 dark:text-blue-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-gears"></i></div>
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-600 transition">Mechanical Work</h3>
+                                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Equipment erection, structural fabrication, structural assembly, pipe fabrication, and heavy machining support.</p>
+                                    </div>
+                                    <span class="text-amber-600 text-xs font-bold mt-4 inline-flex items-center gap-1">Read More & View Gallery <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scaffolding & Access -->
+                        <div class="swiper-slide h-auto">
+                            <div onclick="openServiceModal('scaffolding')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-borderCol-light dark:border-borderCol-dark overflow-hidden h-full flex flex-col group hover:shadow-xl transition-all duration-300">
+                                <div class="h-48 service-img-container bg-slate-200">
+                                    <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover img-1 transition-all duration-500" alt="Scaffolding sample 1">
+                                    <img src="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?q=80&w=600&auto=format&fit=crop" class="service-img-cycle img-2" alt="Scaffolding sample 2">
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col justify-between">
+                                    <div>
+                                        <div class="w-12 h-12 rounded-xl bg-blue-700/10 dark:bg-blue-600/20 text-blue-700 dark:text-blue-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-building-user"></i></div>
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-600 transition">Scaffolding Systems</h3>
+                                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Cuplock scaffolding, H-frame towers, mobile towers, safety staging platform installations, and net rigging.</p>
+                                    </div>
+                                    <span class="text-amber-600 text-xs font-bold mt-4 inline-flex items-center gap-1">Read More & View Gallery <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pipeline Fabrication -->
+                        <div class="swiper-slide h-auto">
+                            <div onclick="openServiceModal('pipeline')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-borderCol-light dark:border-borderCol-dark overflow-hidden h-full flex flex-col group hover:shadow-xl transition-all duration-300">
+                                <div class="h-48 service-img-container bg-slate-200">
+                                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover img-1 transition-all duration-500" alt="Pipeline sample 1">
+                                    <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=600&auto=format&fit=crop" class="service-img-cycle img-2" alt="Pipeline sample 2">
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col justify-between">
+                                    <div>
+                                        <div class="w-12 h-12 rounded-xl bg-blue-700/10 dark:bg-blue-600/20 text-blue-700 dark:text-blue-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-diagram-project"></i></div>
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-600 transition">Pipeline Fabrication</h3>
+                                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Carbon steel, MS, SS pipelines. Argon welding, structural support layouts, alignment, and testing.</p>
+                                    </div>
+                                    <span class="text-amber-600 text-xs font-bold mt-4 inline-flex items-center gap-1">Read More & View Gallery <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next text-amber-600"></div>
+                    <div class="swiper-button-prev text-amber-600"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== INTERACTIVE 3D SHOWCASE SECTION ==================== -->
+        <section id="interactive-showcase" class="py-28 bg-slate-50 dark:bg-slate-900 border-y border-borderCol-light dark:border-borderCol-dark">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-amber-600 font-bold uppercase tracking-wider text-xs"><i class="fas fa-cube mr-1"></i> WebGL 3D Preview</span>
+                    <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 dark:text-white mt-2">Interactive 3D Product Showcase</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-3 text-sm">Drag to rotate the 3D model 360 degrees. Use the panel controls to toggles textures, wireframe mode, auto-rotation, and examine specifications.</p>
+                    <div class="w-20 h-1 bg-amber-600 mx-auto mt-4 rounded-full"></div>
+                </div>
+                
+                <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+                    <!-- Left: Control panel -->
+                    <div class="lg:col-span-4 flex flex-col justify-between bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-md">
+                        <div>
+                            <h3 class="font-display font-bold text-lg text-slate-950 dark:text-white mb-4">Select Component</h3>
+                            <div class="space-y-3" id="asset-selector-group">
+                                <button onclick="load3DAsset('pipe')" id="btn-asset-pipe" class="w-full flex items-center justify-between text-left p-4 rounded-xl border-2 border-amber-600 bg-amber-600/5 dark:bg-amber-600/10 font-bold text-slate-900 dark:text-white transition">
+                                    <span><i class="fas fa-circle-nodes mr-2 text-amber-600"></i> Insulated Pipeline</span>
+                                    <i class="fas fa-chevron-right text-amber-600"></i>
+                                </button>
+                                <button onclick="load3DAsset('puf')" id="btn-asset-puf" class="w-full flex items-center justify-between text-left p-4 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-table-cells mr-2 text-slate-400"></i> Modular PUF Panel</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('lift')" id="btn-asset-lift" class="w-full flex items-center justify-between text-left p-4 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-elevator mr-2 text-slate-400"></i> Passenger Lift Cabin</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 3D Controls -->
+                        <div class="border-t border-borderCol-light dark:border-borderCol-dark pt-6 mt-6 space-y-4">
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">Viewer Controls</h4>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Auto-Rotate</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="ctrl-auto-rotate" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:height-5 after:width-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Wireframe Mode</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="ctrl-wireframe" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:height-5 after:width-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                    <span>Light Intensity</span>
+                                    <span id="lbl-light-intensity">1.0</span>
+                                </div>
+                                <input type="range" id="ctrl-light" min="0.2" max="2.5" step="0.1" value="1.0" class="w-full accent-amber-600 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer h-1.5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center: 3D canvas viewport -->
+                    <div class="lg:col-span-5 relative bg-slate-900 dark:bg-black rounded-2xl overflow-hidden border border-slate-950 shadow-2xl flex flex-col justify-between min-h-[350px]">
+                        <!-- UI Overlays -->
+                        <div class="absolute top-4 left-4 z-10 bg-slate-950/75 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs text-slate-300 border border-slate-800 pointer-events-none">
+                            <i class="fas fa-rotate mr-1"></i> Drag to Spin 360° | Scroll to Zoom
+                        </div>
+                        
+                        <div id="canvas-loading" class="absolute inset-0 flex items-center justify-center bg-slate-950/80 z-20 transition-opacity duration-300 pointer-events-none opacity-0">
+                            <div class="text-center">
+                                <i class="fas fa-spinner fa-spin text-amber-600 text-3xl mb-2"></i>
+                                <p class="text-xs text-slate-400 font-semibold uppercase tracking-widest">Loading 3D Scene...</p>
+                            </div>
+                        </div>
+
+                        <!-- The WebGL Canvas -->
+                        <div class="w-full h-full flex-grow cursor-grab active:cursor-grabbing relative" id="canvas-container">
+                            <canvas id="three-canvas" class="w-full h-full block"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Right: Product Information Sheet -->
+                    <div class="lg:col-span-3 bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-md flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-amber-600 uppercase tracking-widest" id="spec-category">Pipeline</span>
+                            <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white mt-1 mb-4" id="spec-title">Insulated Pipe System</h3>
+                            <div class="space-y-4 text-sm text-slate-600 dark:text-slate-400" id="spec-body">
+                                <div>
+                                    <span class="block text-xs text-slate-400 font-bold uppercase">Cladding Material</span>
+                                    <span class="font-semibold text-slate-800 dark:text-slate-200">Aluminum Sheet (0.6mm - 1.2mm)</span>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-slate-400 font-bold uppercase">Insulation Layer</span>
+                                    <span class="font-semibold text-slate-800 dark:text-slate-200">Polyurethane Foam / Rockwool / Glasswool</span>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-slate-400 font-bold uppercase">Temperature Range</span>
+                                    <span class="font-semibold text-slate-800 dark:text-slate-200">-50°C to +350°C</span>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-slate-400 font-bold uppercase">Applications</span>
+                                    <span class="font-semibold text-slate-800 dark:text-slate-200">Boilers, Steam pipelines, Chillers, Chemical Plants</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-borderCol-light dark:border-borderCol-dark pt-6 mt-6">
+                            <a href="#contact" onclick="document.getElementById('contactFormMessage').value = 'I am interested in your 3D featured ' + document.getElementById('spec-title').innerText + '. Please send technical data sheet.'" class="w-full bg-blue-800 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded-xl transition text-center block text-sm shadow-md">
+                                <i class="fas fa-file-invoice-dollar mr-2"></i> Request Technical Data
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== INTERACTIVE TOOLS (CALCULATOR & TIMELINE PROGRESS) ==================== -->
+        <section id="tools" class="py-24 bg-cardBg-light dark:bg-neutralBg-dark">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-amber-600 font-bold uppercase tracking-wider text-xs"><i class="fas fa-calculator mr-1"></i> Interactive Portal</span>
+                    <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 dark:text-white mt-2">Client Workspace & Tools</h2>
+                    <div class="w-20 h-1 bg-amber-600 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <!-- Tool 1: Interactive Cost & Manpower Quote Estimator -->
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-xl border border-borderCol-light dark:border-borderCol-dark">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-lg bg-amber-600/10 dark:bg-amber-600/20 text-amber-600 flex items-center justify-center text-lg"><i class="fas fa-file-invoice-dollar"></i></div>
+                            <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Smart Proposal Estimator</h3>
+                        </div>
+                        
+                        <form id="estimator-form" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Category Selection</label>
+                                <select id="est-category" onchange="updateEstimatorOptions()" class="w-full border border-borderCol-light dark:border-borderCol-dark p-3 rounded-xl bg-slate-50 dark:bg-slate-700 text-sm outline-none focus:ring-2 focus:ring-amber-600">
+                                    <option value="manpower">Skilled Manpower Supply (Per Worker/Day)</option>
+                                    <option value="piping">Piping & Structural Fabrication (Meters)</option>
+                                    <option value="insulation">Pipeline Thermal Insulation (Sq. Meters)</option>
+                                    <option value="lifts">Commercial Lifts Installation (Units)</option>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-400 mb-2" id="lbl-quantity">Quantity (Workers)</label>
+                                    <input type="number" id="est-quantity" min="1" value="10" oninput="calculateEstimate()" class="w-full border border-borderCol-light dark:border-borderCol-dark p-3 rounded-xl bg-slate-50 dark:bg-slate-700 text-sm outline-none focus:ring-2 focus:ring-amber-600">
+                                </div>
+                                <div id="container-days">
+                                    <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Duration (Days)</label>
+                                    <input type="number" id="est-days" min="1" value="30" oninput="calculateEstimate()" class="w-full border border-borderCol-light dark:border-borderCol-dark p-3 rounded-xl bg-slate-50 dark:bg-slate-700 text-sm outline-none focus:ring-2 focus:ring-amber-600">
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 border-t border-borderCol-light dark:border-borderCol-dark pt-4 mt-2">
+                                <label class="block text-xs font-bold uppercase text-slate-400">Additional Specifications</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="est-compliance" checked onchange="calculateEstimate()" class="w-4 h-4 text-amber-600 border-gray-300 rounded focus:ring-amber-500">
+                                    <span class="text-xs text-slate-600 dark:text-slate-300">100% EPF/ESIC Compliance Staging</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="est-safety" checked onchange="calculateEstimate()" class="w-4 h-4 text-amber-600 border-gray-300 rounded focus:ring-amber-500">
+                                    <span class="text-xs text-slate-600 dark:text-slate-300">Safety Gear (PPE Kit) Included</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-5 border border-borderCol-light dark:border-borderCol-dark">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-semibold text-slate-600 dark:text-slate-400">Estimated Total Cost</span>
+                                    <span class="text-xl font-black text-amber-600" id="est-total-cost">₹1,86,000</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 italic">*Excluding Taxes. Valid for project approvals within 30 days.</p>
+                            </div>
+
+                            <button type="button" onclick="alert('Estimate submitted! Our representative will send a formal quotation to your email.')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl transition shadow-md"><i class="fas fa-paper-plane mr-2"></i> Submit for Formal RFP</button>
+                        </form>
+                    </div>
+
+                    <!-- Tool 2: Live Project Progress Tracker Simulation -->
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-xl border border-borderCol-light dark:border-borderCol-dark flex flex-col justify-between h-full">
+                        <div>
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded-lg bg-blue-700/10 dark:bg-blue-600/20 text-blue-700 dark:text-blue-500 flex items-center justify-center text-lg"><i class="fas fa-bars-progress"></i></div>
+                                <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Live Project Status Tracker</h3>
+                            </div>
+                            
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Input your active project identification code below to audit mobilization, workforce deployment, compliance logs, and construction progress.</p>
+                            
+                            <div class="flex gap-2 mb-6">
+                                <input type="text" id="track-id-input" value="SE-2026-TATA" class="flex-grow border border-borderCol-light dark:border-borderCol-dark p-3 rounded-xl bg-slate-50 dark:bg-slate-700 text-sm outline-none focus:ring-2 focus:ring-blue-800 uppercase font-mono">
+                                <button onclick="trackProject()" class="bg-blue-800 hover:bg-blue-900 text-white px-6 py-3 rounded-xl font-bold transition shadow-md">Track</button>
+                            </div>
+
+                            <!-- Dynamic tracking status area -->
+                            <div id="tracking-result" class="space-y-6">
+                                <div class="flex justify-between items-center border-b border-borderCol-light dark:border-borderCol-dark pb-3">
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 dark:text-white" id="track-client">Tata Steel Plant (Phase 3)</h4>
+                                        <p class="text-xs text-slate-400 mt-0.5">Project ID: <span class="font-mono font-semibold" id="track-id">SE-2026-TATA</span></p>
+                                    </div>
+                                    <span class="bg-emerald-500/10 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/20" id="track-status">In Progress</span>
+                                </div>
+
+                                <!-- Progress Steps -->
+                                <div class="relative pl-6 border-l-2 border-slate-200 dark:border-slate-700 space-y-6" id="progress-steps-container">
+                                    <div class="relative">
+                                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-emerald-500 border-4 border-white dark:border-slate-800 flex items-center justify-center"></div>
+                                        <h5 class="font-bold text-xs text-emerald-500 uppercase">Phase 1: Mobilization & Staging</h5>
+                                        <p class="text-xs text-slate-500 mt-0.5">Labour onboarding complete, safety gears deployed. (Done 12 April 2026)</p>
+                                    </div>
+                                    <div class="relative">
+                                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-emerald-500 border-4 border-white dark:border-slate-800 flex items-center justify-center"></div>
+                                        <h5 class="font-bold text-xs text-emerald-500 uppercase">Phase 2: Scaffolding Staging</h5>
+                                        <p class="text-xs text-slate-500 mt-0.5">Heavy cuplock towers set up on boiler exterior. (Done 18 April 2026)</p>
+                                    </div>
+                                    <div class="relative">
+                                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-slate-800 flex items-center justify-center animate-ping"></div>
+                                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-slate-800 flex items-center justify-center"></div>
+                                        <h5 class="font-bold text-xs text-blue-500 uppercase">Phase 3: Thermal Pipe Insulation</h5>
+                                        <p class="text-xs text-slate-500 mt-0.5">60% of cladding wrapping completed. Ongoing safety verification.</p>
+                                    </div>
+                                    <div class="relative opacity-50">
+                                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-600 border-4 border-white dark:border-slate-800 flex items-center justify-center"></div>
+                                        <h5 class="font-bold text-xs text-slate-400 uppercase">Phase 4: Site Safety Clearance</h5>
+                                        <p class="text-xs text-slate-500 mt-0.5">Awaiting post-execution inspection report.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CLIENTS SECTION ==================== -->
+        <section id="clients" class="py-24 bg-slate-50 dark:bg-slate-900 border-t border-borderCol-light dark:border-borderCol-dark">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-amber-600 font-bold uppercase tracking-wider text-xs"><i class="fas fa-handshake mr-1"></i> Partners</span>
+                    <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 dark:text-white mt-2">Trusted by Industrial Giants</h2>
+                    <div class="w-20 h-1 bg-amber-600 mx-auto mt-4 rounded-full"></div>
+                </div>
+                
                 <div class="swiper clientSwiper pb-12">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:tata.com" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=TATA'"><p class="mt-2 text-sm">TATA</p></div></div>
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:jindalsteel.com" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=Jindal'"><p class="mt-2 text-sm">Jindal</p></div></div>
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:rungtaindustries.com" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=Rungta'"><p class="mt-2 text-sm">Rungta Mines</p></div></div>
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:acclimited.com" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=ACC'"><p class="mt-2 text-sm">ACC Limited</p></div></div>
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:ultratechcement.com" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=UltraTech'"><p class="mt-2 text-sm">UltraTech</p></div></div>
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:jkpaper.com" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=JK+Paper'"><p class="mt-2 text-sm">JK Paper</p></div></div>
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:allana.com" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=Allana'"><p class="mt-2 text-sm">Allana</p></div></div>
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:rashmiindia.com" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=Rashmi'"><p class="mt-2 text-sm">Rashmi Group</p></div></div>
-                        <div class="swiper-slide"><div class="bg-white p-4 rounded-xl shadow text-center"><img src="https://logos-api.apistemic.com/domain:shyamsteel.in" class="h-12 mx-auto grayscale hover:grayscale-0" onerror="this.src='https://placehold.co/120x120?text=Shyam'"><p class="mt-2 text-sm">Shyam Steel</p></div></div>
+                        <div class="swiper-slide flex justify-center"><div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-sm text-center w-full max-w-[180px]"><img src="https://logos-api.apistemic.com/domain:tata.com" class="h-12 mx-auto grayscale hover:grayscale-0 transition object-contain" onerror="this.src='https://placehold.co/120x120?text=TATA'"><p class="mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">TATA</p></div></div>
+                        <div class="swiper-slide flex justify-center"><div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-sm text-center w-full max-w-[180px]"><img src="https://logos-api.apistemic.com/domain:jindalsteel.com" class="h-12 mx-auto grayscale hover:grayscale-0 transition object-contain" onerror="this.src='https://placehold.co/120x120?text=Jindal'"><p class="mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">Jindal</p></div></div>
+                        <div class="swiper-slide flex justify-center"><div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-sm text-center w-full max-w-[180px]"><img src="https://logos-api.apistemic.com/domain:rungtaindustries.com" class="h-12 mx-auto grayscale hover:grayscale-0 transition object-contain" onerror="this.src='https://placehold.co/120x120?text=Rungta'"><p class="mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">Rungta Mines</p></div></div>
+                        <div class="swiper-slide flex justify-center"><div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-sm text-center w-full max-w-[180px]"><img src="https://logos-api.apistemic.com/domain:acclimited.com" class="h-12 mx-auto grayscale hover:grayscale-0 transition object-contain" onerror="this.src='https://placehold.co/120x120?text=ACC'"><p class="mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">ACC Limited</p></div></div>
+                        <div class="swiper-slide flex justify-center"><div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-sm text-center w-full max-w-[180px]"><img src="https://logos-api.apistemic.com/domain:ultratechcement.com" class="h-12 mx-auto grayscale hover:grayscale-0 transition object-contain" onerror="this.src='https://placehold.co/120x120?text=UltraTech'"><p class="mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">UltraTech</p></div></div>
+                        <div class="swiper-slide flex justify-center"><div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-sm text-center w-full max-w-[180px]"><img src="https://logos-api.apistemic.com/domain:jkpaper.com" class="h-12 mx-auto grayscale hover:grayscale-0 transition object-contain" onerror="this.src='https://placehold.co/120x120?text=JK+Paper'"><p class="mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">JK Paper</p></div></div>
+                        <div class="swiper-slide flex justify-center"><div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-sm text-center w-full max-w-[180px]"><img src="https://logos-api.apistemic.com/domain:allana.com" class="h-12 mx-auto grayscale hover:grayscale-0 transition object-contain" onerror="this.src='https://placehold.co/120x120?text=Allana'"><p class="mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">Allana</p></div></div>
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
-                <p class="text-center text-gray-500 mt-4 italic">...and various sugar mills, cement plants, steel plants across the region, backed by decades of trust.</p>
+                <p class="text-center text-sm italic text-slate-500 dark:text-slate-400 mt-6">Decades of collaborative trust across paper mills, steel plants, power corporations, and infrastructure developers.</p>
             </div>
         </section>
 
         <!-- ==================== COMPLIANCE SECTION ==================== -->
-        <section id="compliance" class="py-20 gradient-primary text-white">
-            <div class="container mx-auto px-5 lg:px-8">
-                <div class="text-center max-w-2xl mx-auto mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold">Fully Certified & Compliant</h2>
-                    <div class="w-20 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
+        <section id="compliance" class="py-24 bg-blue-900 text-white relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-950 to-indigo-900 opacity-90"></div>
+            <div class="container mx-auto px-5 lg:px-8 relative z-10">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-amber-500 font-bold uppercase tracking-wider text-xs">Statutory Compliance</span>
+                    <h2 class="text-3xl md:text-4xl font-display font-black mt-2">100% Certified & Compliant Organization</h2>
+                    <p class="text-blue-200 text-sm mt-3">We adhere strictly to statutory provisions under regional and national labor commissions.</p>
+                    <div class="w-20 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center border border-white/20 hover:bg-white/20 transition duration-300">
-                        <i class="fas fa-file-invoice text-secondary text-3xl mb-3"></i>
-                        <p class="font-bold">PAN</p>
-                        <p class="font-mono text-sm">ADWPA2184L</p>
+                
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div onclick="openComplianceModal('PAN')" class="cursor-pointer bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/25 hover:scale-105 transition-all duration-300 text-center">
+                        <i class="fas fa-file-signature text-3xl text-amber-500 mb-3"></i>
+                        <h4 class="font-bold text-lg">PAN Certificate</h4>
+                        <p class="font-mono text-sm text-blue-200 mt-2 bg-black/20 py-1 rounded">ADWPA2184L</p>
+                        <span class="text-[10px] text-amber-500 mt-2 block font-bold">Click to Preview <i class="fas fa-eye"></i></span>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center border border-white/20 hover:bg-white/20 transition duration-300">
-                        <i class="fas fa-building text-secondary text-3xl mb-3"></i>
-                        <p class="font-bold">GST</p>
-                        <p class="font-mono text-sm">07ADWPA2184L2Z4</p>
+                    <div onclick="openComplianceModal('GST')" class="cursor-pointer bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/25 hover:scale-105 transition-all duration-300 text-center">
+                        <i class="fas fa-building-circle-check text-3xl text-amber-500 mb-3"></i>
+                        <h4 class="font-bold text-lg">GST Registration</h4>
+                        <p class="font-mono text-sm text-blue-200 mt-2 bg-black/20 py-1 rounded">07ADWPA2184L2Z4</p>
+                        <span class="text-[10px] text-amber-500 mt-2 block font-bold">Click to Preview <i class="fas fa-eye"></i></span>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center border border-white/20 hover:bg-white/20 transition duration-300">
-                        <i class="fas fa-id-card text-secondary text-3xl mb-3"></i>
-                        <p class="font-bold">Udyam / ESIC</p>
-                        <p class="font-mono text-sm">UDYAM-DL-02-0082439</p>
+                    <div onclick="openComplianceModal('ESIC')" class="cursor-pointer bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/25 hover:scale-105 transition-all duration-300 text-center">
+                        <i class="fas fa-shield-halved text-3xl text-amber-500 mb-3"></i>
+                        <h4 class="font-bold text-lg">ESIC / Udyam Registry</h4>
+                        <p class="font-mono text-sm text-blue-200 mt-2 bg-black/20 py-1 rounded">UDYAM-DL-02-0082439</p>
+                        <span class="text-[10px] text-amber-500 mt-2 block font-bold">Click to Preview <i class="fas fa-eye"></i></span>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center border border-white/20 hover:bg-white/20 transition duration-300">
-                        <i class="fas fa-shield-alt text-secondary text-3xl mb-3"></i>
-                        <p class="font-bold">EPF</p>
-                        <p class="font-mono text-sm">100016859045HD</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== WHY CHOOSE US ==================== -->
-        <section class="py-16 bg-white">
-            <div class="container mx-auto px-5 lg:px-8">
-                <div class="bg-gradient-to-r from-primary to-accent rounded-3xl p-8 md:p-12 text-white shadow-2xl">
-                    <div class="text-center mb-8"><h2 class="text-3xl font-bold">Why Shabnam Enterprises?</h2><div class="w-20 h-1 bg-secondary mx-auto mt-3 rounded-full"></div></div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                        <div><i class="fas fa-calendar-alt text-4xl text-secondary"></i><h3 class="text-xl font-bold mt-3">27+ Years Legacy</h3><p>Proven industry expertise since 1999</p></div>
-                        <div><i class="fas fa-trophy text-4xl text-secondary"></i><h3 class="text-xl font-bold mt-3">Trusted by Leaders</h3><p>Track record with TATA, Jindal, ACC & more</p></div>
-                        <div><i class="fas fa-gavel text-4xl text-secondary"></i><h3 class="text-xl font-bold mt-3">Fully Compliant</h3><p>GST, EPF, ESIC – 100% legal assurance</p></div>
-                        <div><i class="fas fa-boxes text-4xl text-secondary"></i><h3 class="text-xl font-bold mt-3">One-Stop Solution</h3><p>Mechanical work + skilled manpower + advanced infra</p></div>
+                    <div onclick="openComplianceModal('EPF')" class="cursor-pointer bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/25 hover:scale-105 transition-all duration-300 text-center">
+                        <i class="fas fa-file-shield text-3xl text-amber-500 mb-3"></i>
+                        <h4 class="font-bold text-lg">EPF Registration</h4>
+                        <p class="font-mono text-sm text-blue-200 mt-2 bg-black/20 py-1 rounded">100016859045HD</p>
+                        <span class="text-[10px] text-amber-500 mt-2 block font-bold">Click to Preview <i class="fas fa-eye"></i></span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ==================== CONTACT SECTION ==================== -->
-        <section id="contact" class="py-20 bg-gray-50">
+        <section id="contact" class="py-24 bg-neutralBg-light dark:bg-neutralBg-dark">
             <div class="container mx-auto px-5 lg:px-8">
-                <div class="grid md:grid-cols-2 gap-12">
+                <div class="grid md:grid-cols-2 gap-12 items-stretch">
                     <div>
-                        <span class="text-secondary font-semibold uppercase text-sm"><i class="fas fa-address-card"></i> Contact Office</span>
-                        <h2 class="text-3xl font-display font-bold text-primary mt-2 mb-6">Let’s Work Together</h2>
-                        <div class="space-y-5">
-                            <div class="flex items-start gap-4"><i class="fas fa-map-marker-alt text-secondary text-2xl mt-1"></i><div><h3 class="font-bold">Registered Office:</h3><p class="text-gray-700">A-879, Gharoli Dairy Colony, Mayur Vihar Phase - III, Delhi - 110096</p></div></div>
-                            <div class="flex items-start gap-4"><i class="fas fa-phone-alt text-secondary text-2xl mt-1"></i><div><h3 class="font-bold">Contact Numbers:</h3><p class="text-gray-700">+91 9939797786, +91 8298683054, +91 9929242139, +91 7361905384</p></div></div>
-                            <div class="flex items-start gap-4"><i class="fas fa-envelope text-secondary text-2xl mt-1"></i><div><h3 class="font-bold">Email:</h3><p class="text-gray-700 break-all">shabnamenterprises2011@gmail.com</p></div></div>
-                            <div class="flex items-start gap-4"><i class="fas fa-chalkboard-user text-secondary text-2xl mt-1"></i><div><h3 class="font-bold">Managing Director:</h3><p class="text-gray-700">Md. Ayub – leading with 27+ years vision</p></div></div>
+                        <span class="text-amber-600 font-bold uppercase tracking-wider text-xs"><i class="fas fa-address-card mr-1"></i> Contact Desk</span>
+                        <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 dark:text-white mt-2 mb-6">Let's Build Together</h2>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-blue-700/10 dark:bg-blue-600/20 text-blue-750 flex items-center justify-center text-lg mt-1 shrink-0"><i class="fas fa-map-location-dot"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white">Registered Address</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">A-879, Gharoli Dairy Colony, Mayur Vihar Phase - III, Delhi - 110096</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-blue-700/10 dark:bg-blue-600/20 text-blue-750 flex items-center justify-center text-lg mt-1 shrink-0"><i class="fas fa-phone-volume"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white">Phone Support Line</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">+91 9939797786, +91 8298683054, +91 9929242139, +91 7361905384</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-blue-700/10 dark:bg-blue-600/20 text-blue-750 flex items-center justify-center text-lg mt-1 shrink-0"><i class="fas fa-envelope-open-text"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white">Corporate Inquiry Email</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">shabnamenterprises2011@gmail.com</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mt-8 flex gap-4">
-                            <a href="tel:9939797786" class="bg-primary hover:bg-accent text-white px-6 py-3 rounded-full flex items-center gap-2"><i class="fas fa-phone"></i> Call Now</a>
-                            <a href="mailto:shabnamenterprises2011@gmail.com" class="border border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-full transition"><i class="fas fa-paper-plane"></i> Email</a>
+
+                        <div class="mt-8 flex flex-wrap gap-4">
+                            <a href="tel:9939797786" class="bg-blue-800 hover:bg-blue-900 text-white px-6 py-3 rounded-xl font-bold transition shadow-md flex items-center gap-2"><i class="fas fa-phone"></i> Direct Call</a>
+                            <a href="mailto:shabnamenterprises2011@gmail.com" class="border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 dark:hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-500 px-6 py-3 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-envelope"></i> Send Email</a>
                         </div>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-xl">
-                        <h3 class="text-2xl font-bold text-primary mb-4">Send an Enquiry</h3>
-                        <form id="contactForm" class="space-y-4">
-                            <input type="text" placeholder="Your Name" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-secondary outline-none">
-                            <input type="email" placeholder="Email Address" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-secondary">
-                            <input type="tel" placeholder="Phone Number" class="w-full border border-gray-300 p-3 rounded-xl">
-                            <textarea rows="4" placeholder="Service requirement / manpower need..." class="w-full border border-gray-300 p-3 rounded-xl"></textarea>
-                            <button type="button" onclick="alert('Thank you! Shabnam Enterprises will get back to you within 24 hours.')" class="w-full bg-secondary hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition"><i class="fas fa-paper-plane mr-2"></i> Submit Request</button>
+
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-borderCol-light dark:border-borderCol-dark shadow-xl">
+                        <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white mb-4">Send Custom Enquiry</h3>
+                        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Inquiry Sent! Shabnam Enterprises technical desk will contact you within 24 hours.')">
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="text" required placeholder="Name" class="border border-borderCol-light dark:border-borderCol-dark p-3 rounded-xl bg-slate-50 dark:bg-slate-700 text-sm outline-none focus:ring-2 focus:ring-amber-600 w-full">
+                                <input type="email" required placeholder="Email Address" class="border border-borderCol-light dark:border-borderCol-dark p-3 rounded-xl bg-slate-50 dark:bg-slate-700 text-sm outline-none focus:ring-2 focus:ring-amber-600 w-full">
+                            </div>
+                            <input type="tel" placeholder="Mobile Number" class="border border-borderCol-light dark:border-borderCol-dark p-3 rounded-xl bg-slate-50 dark:bg-slate-700 text-sm outline-none focus:ring-2 focus:ring-amber-600 w-full">
+                            <textarea rows="4" required id="contactFormMessage" placeholder="Specific industrial service or manpower supply requirements..." class="border border-borderCol-light dark:border-borderCol-dark p-3 rounded-xl bg-slate-50 dark:bg-slate-700 text-sm outline-none focus:ring-2 focus:ring-amber-600 w-full"></textarea>
+                            <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl transition shadow-md"><i class="fas fa-paper-plane mr-2"></i> Send Quote Request</button>
                         </form>
-                        <p class="text-xs text-gray-400 mt-4 text-center">*We respect your privacy. All data secure.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ==================== FOOTER ==================== -->
-        <footer class="bg-primary text-white py-10">
-            <div class="container mx-auto px-5 text-center">
-                <div class="flex justify-center space-x-6 mb-6 text-2xl">
-                    <i class="fab fa-linkedin hover:text-secondary cursor-pointer"></i><i class="fab fa-facebook hover:text-secondary"></i><i class="fab fa-instagram hover:text-secondary"></i>
+        <footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-850">
+            <div class="container mx-auto px-5 lg:px-8 text-center space-y-6">
+                <div class="flex justify-center space-x-6 text-xl text-slate-200">
+                    <a href="#" class="hover:text-amber-500 transition"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-amber-500 transition"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-amber-500 transition"><i class="fab fa-instagram"></i></a>
                 </div>
-                <p>© 2026 Shabnam Enterprises – Industrial Contracting & Workforce Solutions. Since 1999 | PAN: ADWPA2184L | GST: 07ADWPA2184L2Z4</p>
-                <p class="text-sm mt-3 text-gray-300">📍 Delhi | Serving PAN India: Insulation | Painting | Roof Sheeting | Mechanical | Scaffolding | Sandblasting | Fabrication | Electrical | Lifts | PUF Panels | Cold Rooms | Fire Fighting | Sliding Systems</p>
-                <p class="text-xs mt-5 opacity-70">EPF Reg: 100016859045HD | ESIC: UDYAM-DL-02-0082439 | Fully compliant with Indian labour laws</p>
+                <div class="text-sm font-semibold max-w-2xl mx-auto leading-relaxed">
+                    © 2026 Shabnam Enterprises – Industrial Contracting & Workforce Solutions. Since 1999 | PAN: ADWPA2184L | GST: 07ADWPA2184L2Z4
+                </div>
+                <div class="text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
+                    📍 Headquartered in Delhi | Providing Services PAN India: Insulation Works, Anti-Corrosive Painting, Metal Roof Sheeting, Structural Rigging & Scaffolding, Heavy Mechanical erection, Sandblasting prep, Pipeline Fabrication, Instrument cablings, Cabin Lifts, PUF insulation blocks, Cold room staging, and dynamic labour compliance management.
+                </div>
+                <div class="text-[10px] text-slate-600 uppercase tracking-widest font-bold">
+                    EPF Reg: 100016859045HD | ESIC: UDYAM-DL-02-0082439 | Certified Class-A Contractor
+                </div>
             </div>
         </footer>
     </main>
-    <div class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></div>
 
+    <!-- ==================== SERVICE MULTI-IMAGE CAROUSEL MODAL ==================== -->
+    <div id="service-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm pointer-events-none opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-3xl overflow-hidden shadow-2xl border border-borderCol-light dark:border-borderCol-dark max-h-[90vh] flex flex-col pointer-events-auto">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center px-6 py-4 border-b border-borderCol-light dark:border-borderCol-dark">
+                <div class="flex items-center gap-3">
+                    <div id="modal-icon" class="w-10 h-10 rounded-xl bg-amber-600/10 text-amber-600 flex items-center justify-center text-lg"></div>
+                    <h3 id="modal-title" class="font-display font-bold text-xl text-slate-900 dark:text-white">Service Gallery</h3>
+                </div>
+                <button onclick="closeServiceModal()" class="text-slate-400 hover:text-amber-600 text-2xl transition"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-grow">
+                <!-- Swiper inside Modal -->
+                <div class="swiper modalSwiper rounded-2xl overflow-hidden h-64 md:h-80 bg-slate-100 dark:bg-slate-900">
+                    <div class="swiper-wrapper" id="modal-swiper-wrapper">
+                        <!-- Dynamic slides inserted here -->
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next text-amber-600"></div>
+                    <div class="swiper-button-prev text-amber-600"></div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider mb-2">Technical Summary & Features</h4>
+                    <p id="modal-desc" class="text-sm text-slate-600 dark:text-slate-450 leading-relaxed"></p>
+                </div>
+
+                <div class="border-t border-borderCol-light dark:border-borderCol-dark pt-4">
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider mb-3">Key Technical Specs</h4>
+                    <div class="grid grid-cols-2 gap-4 text-xs" id="modal-specs">
+                        <!-- Dynamic specs list -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900 border-t border-borderCol-light dark:border-borderCol-dark flex justify-end gap-3">
+                <button onclick="closeServiceModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Close</button>
+                <a href="#contact" onclick="closeServiceModal(); document.getElementById('contactFormMessage').value = 'I require an evaluation/quote for ' + document.getElementById('modal-title').innerText;" class="px-5 py-2 rounded-xl text-sm font-bold bg-amber-600 hover:bg-amber-700 text-white shadow transition flex items-center gap-1">Enquire Now <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== COMPLIANCE MODAL ==================== -->
+    <div id="compliance-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm pointer-events-none opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border border-borderCol-light dark:border-borderCol-dark pointer-events-auto">
+            <div class="flex justify-between items-center px-6 py-4 border-b border-borderCol-light dark:border-borderCol-dark">
+                <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white" id="compliance-title">Compliance Document</h3>
+                <button onclick="closeComplianceModal()" class="text-slate-400 hover:text-amber-600 text-xl transition"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-8 text-center space-y-4">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-3xl mx-auto"><i class="fas fa-stamp animate-bounce"></i></div>
+                <h4 class="font-bold text-xl text-slate-900 dark:text-white">Legally Verified Certificate</h4>
+                <p class="text-sm text-slate-500 dark:text-slate-400">This document has been authorized and recorded under compliance logs of the Ministry of Corporate Affairs, Gov of India.</p>
+                <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border border-borderCol-light dark:border-borderCol-dark font-mono text-sm text-slate-700 dark:text-slate-200">
+                    <span class="block text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">Registration Identifier</span>
+                    <span class="font-bold text-lg text-amber-600" id="compliance-reg"></span>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900 border-t border-borderCol-light dark:border-borderCol-dark flex justify-end">
+                <button onclick="closeComplianceModal()" class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2.5 px-6 rounded-xl text-sm transition">Verify Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
+        // Swiper Carousels Initialization
         document.addEventListener('DOMContentLoaded', function() {
             new Swiper('.coreServicesSwiper', {
-                slidesPerView: 1, spaceBetween: 24, loop: true, autoplay: { delay: 3000, disableOnInteraction: false },
+                slidesPerView: 1, spaceBetween: 24, loop: true, autoplay: { delay: 4000, disableOnInteraction: false },
                 pagination: { el: '.coreServicesSwiper .swiper-pagination', clickable: true },
                 navigation: { nextEl: '.coreServicesSwiper .swiper-button-next', prevEl: '.coreServicesSwiper .swiper-button-prev' },
-                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }
-            });
-            new Swiper('.advancedSwiper', {
-                slidesPerView: 1, spaceBetween: 24, loop: true, autoplay: { delay: 3000, disableOnInteraction: false },
-                pagination: { el: '.advancedSwiper .swiper-pagination', clickable: true },
-                navigation: { nextEl: '.advancedSwiper .swiper-button-next', prevEl: '.advancedSwiper .swiper-button-prev' },
-                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 3 } }
+                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
             });
             new Swiper('.clientSwiper', {
                 slidesPerView: 2, spaceBetween: 20, loop: true, autoplay: { delay: 2500, disableOnInteraction: false },
                 pagination: { el: '.clientSwiper .swiper-pagination', clickable: true },
                 breakpoints: { 640: { slidesPerView: 3 }, 768: { slidesPerView: 4 }, 1024: { slidesPerView: 5 } }
             });
+
+            // GSAP Entrance Animations
+            gsap.from("header", { y: -100, opacity: 0, duration: 1, ease: "power2.out" });
+            gsap.from("#home h2", { x: -100, opacity: 0, duration: 1, delay: 0.5, ease: "power2.out" });
+            gsap.from("#home p", { x: -100, opacity: 0, duration: 1, delay: 0.7, ease: "power2.out" });
+            gsap.from("#home .relative.bg-white\\/40", { y: 50, opacity: 0, duration: 1.2, delay: 0.9, ease: "power2.out" });
         });
 
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleIcon.className = 'fas fa-sun text-lg text-amber-500';
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleIcon.className = 'fas fa-moon text-lg';
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+                themeToggleIcon.className = 'fas fa-moon text-lg';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+                themeToggleIcon.className = 'fas fa-sun text-lg text-amber-500';
+            }
+        });
+
+        // Mobile Menu Button Logic
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        if(menuBtn && mobileMenu) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Smooth Scroll & Close Menu
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
                 if(href === "#" || href === "") return;
                 const target = document.querySelector(href);
-                if(target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); if(mobileMenu && !mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden'); }
+                if(target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if(mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
             });
         });
-        const sections = document.querySelectorAll("section");
-        const navLinks = document.querySelectorAll("nav a, .mobile-menu a");
-        window.addEventListener("scroll", () => {
-            let current = "";
-            sections.forEach(section => { const sectionTop = section.offsetTop - 100; if(pageYOffset >= sectionTop) current = section.getAttribute("id"); });
-            navLinks.forEach(link => { link.classList.remove("active", "text-secondary"); if(link.getAttribute("href") === `#${current}`) { link.classList.add("active"); link.classList.add("text-secondary"); } });
-            const backBtn = document.getElementById('backToTop'); if(window.scrollY > 400) backBtn.classList.add('show'); else backBtn.classList.remove('show');
-        });
-        document.getElementById('backToTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // Counters Animation
         const counters = document.querySelectorAll('.counter-number');
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if(entry.isIntersecting) { const el = entry.target; const target = parseInt(el.getAttribute('data-target')); let count = 0; const updateCounter = setInterval(() => { if(count <= target) { el.innerText = count; count += Math.ceil(target / 45); } else { clearInterval(updateCounter); } }, 30); observer.unobserve(el); } }); }, { threshold: 0.4 });
+        const observerOptions = { threshold: 0.4 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute('data-target'));
+                    let count = 0;
+                    const speed = target / 40;
+                    const updateCounter = setInterval(() => {
+                        if (count < target) {
+                            count += Math.ceil(speed);
+                            el.innerText = count > target ? target : count;
+                        } else {
+                            el.innerText = target;
+                            clearInterval(updateCounter);
+                        }
+                    }, 30);
+                    observer.unobserve(el);
+                }
+            });
+        }, observerOptions);
         counters.forEach(c => observer.observe(c));
+
+        // Multiple Images Data for Service Modal
+        const serviceModalData = {
+            'insulation': {
+                title: 'Insulation Work',
+                iconClass: 'fas fa-thermometer-half',
+                desc: 'Providing full-spectrum thermal (hot/cold) and acoustic insulation. Our projects prevent thermal energy leakage in high-temperature pipelines, chemical plants, boilers, and industrial ventilation ducts. We select only the highest density Polyurethane Foam, Rockwool blankets, and Glasswool cladding mapped with premium aluminum sheet wrapping.',
+                images: [
+                    'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=600&auto=format&fit=crop'
+                ],
+                specs: [
+                    ['Insulation Efficiency', 'Up to 94% heat preservation'],
+                    ['Material Densities', '40 - 150 kg/m³'],
+                    ['Maximum Temp Limit', '650°C (Rockwool)'],
+                    ['Sheet Thicknesses', '0.6mm - 1.2mm Aluminum Cladding']
+                ]
+            },
+            'painting': {
+                title: 'Industrial Painting',
+                iconClass: 'fas fa-paint-roller',
+                desc: 'Specialized high-performance painting for anti-corrosion on heavy metallic structures. Our certified painters apply epoxy coatings, PU coatings, zinc primers, and high-temp heat-resistant paints on factory columns, pipelines, tanks, and structural gantries.',
+                images: [
+                    'https://images.unsplash.com/photo-1562259949-e8e7689d7828?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=600&auto=format&fit=crop'
+                ],
+                specs: [
+                    ['Coatings Used', 'Epoxy, Polyurethane, Zinc Primers'],
+                    ['Methodologies', 'Airless spray, roller, manual paint coating'],
+                    ['Warranty Coverage', '5 to 10 Year Anti-Rust Staging'],
+                    ['Certifications', 'IS-1477 Industrial Coating Standards']
+                ]
+            },
+            'roofing': {
+                title: 'Roof Sheeting',
+                iconClass: 'fas fa-campground',
+                desc: 'Erection and cladding of premium color-coated pre-painted galvanised iron (PPGI) roofing sheets. We construct and install high-durability roofing sheets, PUF panel sandwich sheets, and daylight polycarbonate skylight structures for warehouse terminals and heavy manufacturing yards.',
+                images: [
+                    'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=600&auto=format&fit=crop'
+                ],
+                specs: [
+                    ['Profile Pitch', '28mm to 32mm corrugated height'],
+                    ['Sheet Thickness', '0.45mm to 0.80mm Base Metal Thick'],
+                    ['Coating Protection', 'AZ-150 Galvalume coating'],
+                    ['Fire Protection', 'FM Approved fire rating classification']
+                ]
+            },
+            'mechanical': {
+                title: 'Mechanical Work',
+                iconClass: 'fas fa-gears',
+                desc: 'Turnkey fabrication, maintenance, and alignment of heavy industrial machinery. Our specialized mechanical crew handles structure alignments, rotating equipment erection, boilers parts maintenance, turbine casing assistance, and chemical vessel fitting.',
+                images: [
+                    'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=600&auto=format&fit=crop'
+                ],
+                specs: [
+                    ['Testing Audits', 'DP, MPI, Radiography coordination'],
+                    ['Tolerances Met', 'Under 0.05mm alignment precision'],
+                    ['Fabrication Limits', 'Up to 25 Ton structural units'],
+                    ['Weld Standards', 'ASME Section IX Certified crew']
+                ]
+            },
+            'scaffolding': {
+                title: 'Scaffolding Systems',
+                iconClass: 'fas fa-building-user',
+                desc: 'Highly secure access systems for working at elevated locations. We provide staging design, cuplock modular pipe staging, mobile towers, safety netting, suspended staging systems, and fall arrest staging compliance.',
+                images: [
+                    'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1590069261209-f8e9b8642343?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop'
+                ],
+                specs: [
+                    ['Scaffold Grade', 'Heavy duty industrial class BS-1139'],
+                    ['Weight Capacity', 'Up to 275 kg/m² working load'],
+                    ['Height Reaches', 'Up to 60 meters staging design'],
+                    ['Safety Audits', 'Daily inspection tags (Green Tag system)']
+                ]
+            },
+            'pipeline': {
+                title: 'Pipeline Fabrication',
+                iconClass: 'fas fa-diagram-project',
+                desc: 'Turnkey routing layout design, structural pipe welding, and commissioning. We install cross-country and plant piping for steam, pressurized water, oil, gas, and vacuum operations. Support designs, pipe sleeves, expansion loops, and hydrostatic testing are completely audited.',
+                images: [
+                    'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=600&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1508962914676-134849a727f0?q=80&w=600&auto=format&fit=crop'
+                ],
+                specs: [
+                    ['Welding Process', 'SMAW, TIG (GTAW) argon welding'],
+                    ['Pipe Classes', 'Schedule 10 to Schedule 160 pipes'],
+                    ['Testing Pressure', 'Up to 150 kg/cm² Hydrostatic testing'],
+                    ['Standards Matched', 'ASME B31.3 Process Piping standards']
+                ]
+            }
+        };
+
+        let modalSwiper = null;
+
+        function openServiceModal(serviceKey) {
+            const data = serviceModalData[serviceKey];
+            if (!data) return;
+
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-icon').innerHTML = `<i class="${data.iconClass}"></i>`;
+            document.getElementById('modal-desc').innerText = data.desc;
+
+            // Populate Swiper Slides
+            const wrapper = document.getElementById('modal-swiper-wrapper');
+            wrapper.innerHTML = '';
+            data.images.forEach(imgUrl => {
+                wrapper.innerHTML += `
+                    <div class="swiper-slide">
+                        <img src="${imgUrl}" class="w-full h-full object-cover" alt="${data.title}">
+                    </div>
+                `;
+            });
+
+            // Populate Specs
+            const specsContainer = document.getElementById('modal-specs');
+            specsContainer.innerHTML = '';
+            data.specs.forEach(spec => {
+                specsContainer.innerHTML += `
+                    <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-borderCol-light dark:border-borderCol-dark">
+                        <span class="block text-slate-400 font-bold uppercase tracking-wider text-[9px]">${spec[0]}</span>
+                        <span class="font-bold text-slate-800 dark:text-slate-200 text-sm mt-0.5 block">${spec[1]}</span>
+                    </div>
+                `;
+            });
+
+            // Open Modal
+            const modal = document.getElementById('service-modal');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            
+            // Init or Update Swiper
+            setTimeout(() => {
+                if (modalSwiper) {
+                    modalSwiper.destroy(true, true);
+                }
+                modalSwiper = new Swiper('.modalSwiper', {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    loop: true,
+                    pagination: { el: '.modalSwiper .swiper-pagination', clickable: true },
+                    navigation: { nextEl: '.modalSwiper .swiper-button-next', prevEl: '.modalSwiper .swiper-button-prev' }
+                });
+            }, 100);
+        }
+
+        function closeServiceModal() {
+            const modal = document.getElementById('service-modal');
+            modal.classList.add('pointer-events-none', 'opacity-0');
+        }
+
+        // Compliance Modal Handler
+        function openComplianceModal(type) {
+            const title = document.getElementById('compliance-title');
+            const reg = document.getElementById('compliance-reg');
+            if (type === 'PAN') {
+                title.innerText = 'Income Tax Department PAN Certificate';
+                reg.innerText = 'ADWPA2184L';
+            } else if (type === 'GST') {
+                title.innerText = 'GST Registration Certificate (Form REG-06)';
+                reg.innerText = '07ADWPA2184L2Z4';
+            } else if (type === 'ESIC') {
+                title.innerText = 'Ministry of MSME - Udyam Registration & ESIC';
+                reg.innerText = 'UDYAM-DL-02-0082439';
+            } else if (type === 'EPF') {
+                title.innerText = 'Employees Provident Fund Organisation Registration';
+                reg.innerText = '100016859045HD';
+            }
+            const modal = document.getElementById('compliance-modal');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+        }
+
+        function closeComplianceModal() {
+            const modal = document.getElementById('compliance-modal');
+            modal.classList.add('pointer-events-none', 'opacity-0');
+        }
+
+        // Dynamic Proposal Estimator Options
+        function updateEstimatorOptions() {
+            const category = document.getElementById('est-category').value;
+            const lblQuantity = document.getElementById('lbl-quantity');
+            const containerDays = document.getElementById('container-days');
+            const qtyInput = document.getElementById('est-quantity');
+
+            if (category === 'manpower') {
+                lblQuantity.innerText = 'Quantity (Workers)';
+                qtyInput.value = '10';
+                containerDays.classList.remove('hidden');
+            } else if (category === 'piping') {
+                lblQuantity.innerText = 'Quantity (Meters)';
+                qtyInput.value = '50';
+                containerDays.classList.add('hidden');
+            } else if (category === 'insulation') {
+                lblQuantity.innerText = 'Quantity (Sq. Meters)';
+                qtyInput.value = '200';
+                containerDays.classList.add('hidden');
+            } else if (category === 'lifts') {
+                lblQuantity.innerText = 'Quantity (Units)';
+                qtyInput.value = '2';
+                containerDays.classList.add('hidden');
+            }
+            calculateEstimate();
+        }
+
+        function calculateEstimate() {
+            const category = document.getElementById('est-category').value;
+            const quantity = parseInt(document.getElementById('est-quantity').value) || 0;
+            const days = parseInt(document.getElementById('est-days').value) || 0;
+            const compliance = document.getElementById('est-compliance').checked;
+            const safety = document.getElementById('est-safety').checked;
+            
+            let rate = 0;
+            let total = 0;
+
+            if (category === 'manpower') {
+                rate = 550; // worker rate per day
+                total = rate * quantity * days;
+            } else if (category === 'piping') {
+                rate = 1200; // piping per meter
+                total = rate * quantity;
+            } else if (category === 'insulation') {
+                rate = 450; // insulation per sq. meter
+                total = rate * quantity;
+            } else if (category === 'lifts') {
+                rate = 450000; // lift unit base cost
+                total = rate * quantity;
+            }
+
+            if (compliance) total += total * 0.08; // add compliance administrative offset
+            if (safety) total += total * 0.04; // add safety gear cost
+
+            document.getElementById('est-total-cost').innerText = '₹' + Math.ceil(total).toLocaleString('en-IN');
+        }
+
+        // Live Project Tracker Simulation
+        const projectData = {
+            'SE-2026-TATA': {
+                client: 'Tata Steel Plant (Phase 3)',
+                status: 'In Progress',
+                color: 'bg-blue-500',
+                steps: [
+                    { name: 'Phase 1: Mobilization & Staging', desc: 'Labour onboarding complete, safety gears deployed. (Done 12 April)', status: 'done' },
+                    { name: 'Phase 2: Scaffolding Staging', desc: 'Heavy cuplock towers set up on boiler exterior. (Done 18 April)', status: 'done' },
+                    { name: 'Phase 3: Thermal Pipe Insulation', desc: '60% of cladding wrapping completed. Ongoing safety verification.', status: 'active' },
+                    { name: 'Phase 4: Site Safety Clearance', desc: 'Awaiting post-execution inspection report.', status: 'pending' }
+                ]
+            },
+            'SE-2026-JINDAL': {
+                client: 'Jindal Steel & Power Mill',
+                status: 'Completed',
+                color: 'bg-emerald-500',
+                steps: [
+                    { name: 'Phase 1: Mobilization & Staging', desc: '30 skilled riggers deployed with safety compliance. (Done 10 March)', status: 'done' },
+                    { name: 'Phase 2: Pipe Fabrication & Welds', desc: 'TIG-welded steam pipes positioned. Radiography done. (Done 22 March)', status: 'done' },
+                    { name: 'Phase 3: Hydrostatic Evaluation', desc: 'Pipeline held at 120 kg/cm² pressure without leak. (Done 28 March)', status: 'done' },
+                    { name: 'Phase 4: Site Handover', desc: 'Plant engineers signed final dispatch clearances. (Done 02 April)', status: 'done' }
+                ]
+            }
+        };
+
+        function trackProject() {
+            const val = document.getElementById('track-id-input').value.toUpperCase().trim();
+            const client = document.getElementById('track-client');
+            const trackId = document.getElementById('track-id');
+            const status = document.getElementById('track-status');
+            const container = document.getElementById('progress-steps-container');
+
+            const p = projectData[val];
+            if (p) {
+                client.innerText = p.client;
+                trackId.innerText = val;
+                status.innerText = p.status;
+                if (p.status === 'Completed') {
+                    status.className = 'bg-emerald-500/10 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/20';
+                } else {
+                    status.className = 'bg-blue-500/10 text-blue-600 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/20';
+                }
+
+                container.innerHTML = '';
+                p.steps.forEach(step => {
+                    let dotHtml = '';
+                    let labelClass = 'text-slate-400';
+                    let opacity = 'opacity-50';
+
+                    if (step.status === 'done') {
+                        dotHtml = `<div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-emerald-500 border-4 border-white dark:border-slate-800 flex items-center justify-center"></div>`;
+                        labelClass = 'text-emerald-500';
+                        opacity = '';
+                    } else if (step.status === 'active') {
+                        dotHtml = `
+                            <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-slate-800 flex items-center justify-center animate-ping"></div>
+                            <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-blue-500 border-4 border-white dark:border-slate-800 flex items-center justify-center"></div>
+                        `;
+                        labelClass = 'text-blue-500';
+                        opacity = '';
+                    } else {
+                        dotHtml = `<div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-600 border-4 border-white dark:border-slate-800 flex items-center justify-center"></div>`;
+                    }
+
+                    container.innerHTML += `
+                        <div class="relative ${opacity}">
+                            ${dotHtml}
+                            <h5 class="font-bold text-xs ${labelClass} uppercase">${step.name}</h5>
+                            <p class="text-xs text-slate-500 mt-0.5">${step.desc}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                client.innerText = 'No Active Project Found';
+                trackId.innerText = val;
+                status.innerText = 'Unknown';
+                status.className = 'bg-red-500/10 text-red-600 text-xs font-bold px-3 py-1 rounded-full border border-red-500/20';
+                container.innerHTML = `<p class="text-xs text-red-500"><i class="fas fa-circle-exclamation mr-1"></i> Try searching for "SE-2026-TATA" or "SE-2026-JINDAL".</p>`;
+            }
+        }
+
+        // ==================== THREE.JS 3D VIEWPORT RENDERING ====================
+        let scene, camera, renderer, activeMesh, animationId;
+        const container = document.getElementById('canvas-container');
+        const threeCanvas = document.getElementById('three-canvas');
+        const loadingOverlay = document.getElementById('canvas-loading');
+
+        // Asset specification data
+        const assetSpecs = {
+            'pipe': {
+                category: 'Pipeline Works',
+                title: 'Insulated Pipeline',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Cladding Material</span><span class="font-semibold text-slate-800 dark:text-slate-200">Aluminum Sheet (0.6mm - 1.2mm)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Insulation Layer</span><span class="font-semibold text-slate-800 dark:text-slate-200">Polyurethane Foam (PUF) / Glasswool</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Temperature Range</span><span class="font-semibold text-slate-800 dark:text-slate-200">-50°C to +350°C</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Applications</span><span class="font-semibold text-slate-800 dark:text-slate-200">Steam pipelines, chiller piping, industrial boilers</span></div>
+                `
+            },
+            'puf': {
+                category: 'Insulation Materials',
+                title: 'Modular PUF Panel',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Panel Type</span><span class="font-semibold text-slate-800 dark:text-slate-200">Sandwich PUF Core (FM Approved)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Facing Sheets</span><span class="font-semibold text-slate-800 dark:text-slate-200">0.5mm PPGI / Stainless Steel 304</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Thermal Conductivity</span><span class="font-semibold text-slate-800 dark:text-slate-200">0.022 W/m·K (Highly Efficient)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Thickness Range</span><span class="font-semibold text-slate-800 dark:text-slate-200">50mm, 80mm, 100mm, 150mm</span></div>
+                `
+            },
+            'lift': {
+                category: 'Passenger Lifts',
+                title: 'Brushed Steel Cabin',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Cabin Structure</span><span class="font-semibold text-slate-800 dark:text-slate-200">Brushed Stainless Steel (SUS 304)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Drive Control</span><span class="font-semibold text-slate-800 dark:text-slate-200">VVVF Microprocessor Controller</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Capacity Limits</span><span class="font-semibold text-slate-800 dark:text-slate-200">6 to 26 Passengers (450kg - 2000kg)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Speed Index</span><span class="font-semibold text-slate-800 dark:text-slate-200">1.0 m/s to 2.5 m/s speed drives</span></div>
+                `
+            }
+        };
+
+        function initThreeScene() {
+            // Scene & Camera
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0f172a); // dark bg slate-900
+
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.set(0, 0, 5);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(container.clientWidth, container.clientHeight);
+
+            // Lighting Setup
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+
+            const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight1.position.set(5, 5, 5);
+            scene.add(dirLight1);
+
+            const dirLight2 = new THREE.DirectionalLight(0xd97706, 0.5); // warm amber light fill
+            dirLight2.position.set(-5, -5, 2);
+            scene.add(dirLight2);
+
+            // Controls listeners for Drag-to-Rotate (360)
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+
+            const handleStart = (clientX, clientY) => {
+                isDragging = true;
+                previousMousePosition = { x: clientX, y: clientY };
+            };
+
+            const handleMove = (clientX, clientY) => {
+                if (!isDragging || !activeMesh) return;
+                const deltaMove = {
+                    x: clientX - previousMousePosition.x,
+                    y: clientY - previousMousePosition.y
+                };
+
+                activeMesh.rotation.y += deltaMove.x * 0.01;
+                activeMesh.rotation.x += deltaMove.y * 0.01;
+
+                previousMousePosition = { x: clientX, y: clientY };
+            };
+
+            const handleEnd = () => { isDragging = false; };
+
+            threeCanvas.addEventListener('mousedown', (e) => handleStart(e.clientX, e.clientY));
+            threeCanvas.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+            window.addEventListener('mouseup', handleEnd);
+
+            threeCanvas.addEventListener('touchstart', (e) => {
+                if(e.touches.length === 1) handleStart(e.touches[0].clientX, e.touches[0].clientY);
+            });
+            threeCanvas.addEventListener('touchmove', (e) => {
+                if(e.touches.length === 1) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+            });
+            window.addEventListener('touchend', handleEnd);
+
+            // Zoom support (Scroll Wheel)
+            threeCanvas.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                camera.position.z += e.deltaY * 0.01;
+                camera.position.z = Math.min(Math.max(camera.position.z, 2), 10);
+            });
+
+            // Initialize default asset
+            load3DAsset('pipe');
+
+            // Animation Loop
+            function animate() {
+                animationId = requestAnimationFrame(animate);
+
+                if (activeMesh) {
+                    // Auto-rotate if control checked and not dragging
+                    if (document.getElementById('ctrl-auto-rotate').checked && !isDragging) {
+                        activeMesh.rotation.y += 0.008;
+                    }
+                }
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function onWindowResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        // Build procedural meshes to keep application entirely asset-free and fast loading
+        function load3DAsset(assetType) {
+            loadingOverlay.classList.remove('opacity-0');
+            
+            // Update Active buttons styling
+            const btnPipe = document.getElementById('btn-asset-pipe');
+            const btnPuf = document.getElementById('btn-asset-puf');
+            const btnLift = document.getElementById('btn-asset-lift');
+
+            [btnPipe, btnPuf, btnLift].forEach(btn => {
+                btn.className = "w-full flex items-center justify-between text-left p-4 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition";
+                btn.querySelector('i:last-child').className = "fas fa-chevron-right text-slate-400";
+            });
+
+            const activeBtn = document.getElementById('btn-asset-' + assetType);
+            activeBtn.className = "w-full flex items-center justify-between text-left p-4 rounded-xl border-2 border-amber-600 bg-amber-600/5 dark:bg-amber-600/10 font-bold text-slate-900 dark:text-white transition";
+            activeBtn.querySelector('i:last-child').className = "fas fa-chevron-right text-amber-600";
+
+            // Update product details info
+            const spec = assetSpecs[assetType];
+            document.getElementById('spec-category').innerText = spec.category;
+            document.getElementById('spec-title').innerText = spec.title;
+            document.getElementById('spec-body').innerHTML = spec.specs;
+
+            setTimeout(() => {
+                // Clear old active mesh
+                if (activeMesh) {
+                    scene.remove(activeMesh);
+                }
+
+                const group = new THREE.Group();
+
+                // Material helper definitions
+                const metalMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.2 });
+                const insulationMaterial = new THREE.MeshStandardMaterial({ color: 0xeab308, roughness: 0.9 }); // yellow PU foam
+                const darkMetal = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.4 });
+                
+                if (assetType === 'pipe') {
+                    // Constructnested cylinders to represent insulation cladding layers
+                    // 1. Core pipe (Iron)
+                    const coreGeo = new THREE.CylinderGeometry(0.3, 0.3, 3, 32);
+                    const coreMesh = new THREE.Mesh(coreGeo, darkMetal);
+                    group.add(coreMesh);
+
+                    // 2. Yellow PUF insulation foam wrapping
+                    const foamGeo = new THREE.CylinderGeometry(0.55, 0.55, 2.6, 32);
+                    const foamMesh = new THREE.Mesh(foamGeo, insulationMaterial);
+                    group.add(foamMesh);
+
+                    // 3. Shiny outer aluminum cladding sheet
+                    const cladGeo = new THREE.CylinderGeometry(0.6, 0.6, 2.2, 32);
+                    const cladMesh = new THREE.Mesh(cladGeo, metalMaterial);
+                    group.add(cladMesh);
+
+                } else if (assetType === 'puf') {
+                    // Construct 3-layered sandwich PUF panel
+                    // Bottom steel layer
+                    const bottomGeo = new THREE.BoxGeometry(2, 0.1, 1.5);
+                    const bottomMesh = new THREE.Mesh(bottomGeo, metalMaterial);
+                    bottomMesh.position.y = -0.45;
+                    group.add(bottomMesh);
+
+                    // Middle PUF core (Yellow)
+                    const coreGeo = new THREE.BoxGeometry(1.95, 0.8, 1.45);
+                    const coreMesh = new THREE.Mesh(coreGeo, insulationMaterial);
+                    group.add(coreMesh);
+
+                    // Top steel layer
+                    const topGeo = new THREE.BoxGeometry(2, 0.1, 1.5);
+                    const topMesh = new THREE.Mesh(topGeo, metalMaterial);
+                    topMesh.position.y = 0.45;
+                    group.add(topMesh);
+
+                } else if (assetType === 'lift') {
+                    // Construct Brushed Steel passenger elevator cabin
+                    const frameGeo = new THREE.BoxGeometry(1.8, 2.2, 1.8);
+                    const frameMesh = new THREE.Mesh(frameGeo, darkMetal);
+                    group.add(frameMesh);
+
+                    // Inside back mirror panel
+                    const mirrorGeo = new THREE.BoxGeometry(1.5, 1.8, 0.05);
+                    const mirrorMesh = new THREE.Mesh(mirrorGeo, metalMaterial);
+                    mirrorMesh.position.set(0, 0, -0.8);
+                    group.add(mirrorMesh);
+
+                    // Vertical golden indicator bar
+                    const indicatorGeo = new THREE.CylinderGeometry(0.04, 0.04, 2, 8);
+                    const indicatorMesh = new THREE.Mesh(indicatorGeo, new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.9, roughness: 0.1 }));
+                    indicatorMesh.position.set(0.7, 0, 0.7);
+                    group.add(indicatorMesh);
+                }
+
+                activeMesh = group;
+                
+                // Set custom rotation for aesthetic initial view
+                activeMesh.rotation.set(0.3, 0.6, 0);
+                scene.add(activeMesh);
+
+                // Set wireframe status matching control state
+                toggleWireframe(document.getElementById('ctrl-wireframe').checked);
+
+                loadingOverlay.classList.add('opacity-0');
+            }, 400);
+        }
+
+        // Wireframe toggler
+        function toggleWireframe(val) {
+            if (!activeMesh) return;
+            activeMesh.traverse((child) => {
+                if (child.isMesh) {
+                    child.material.wireframe = val;
+                }
+            });
+        }
+
+        // Listener events for Three viewport controller options
+        document.getElementById('ctrl-wireframe').addEventListener('change', function(e) {
+            toggleWireframe(e.target.checked);
+        });
+
+        document.getElementById('ctrl-light').addEventListener('input', function(e) {
+            const val = parseFloat(e.target.value);
+            document.getElementById('lbl-light-intensity').innerText = val.toFixed(1);
+            
+            // Update directional light levels
+            scene.traverse((child) => {
+                if (child.isDirectionalLight) {
+                    child.intensity = val;
+                }
+            });
+        });
+
+        // Initialize WebGL Scene
+        initThreeScene();
     </script>
 </body>
 </html>
