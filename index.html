@@ -437,17 +437,65 @@
                     <div class="lg:col-span-4 flex flex-col justify-between bg-white dark:bg-slate-800 p-6 rounded-2xl border border-borderCol-light dark:border-borderCol-dark shadow-md">
                         <div>
                             <h3 class="font-display font-bold text-lg text-slate-950 dark:text-white mb-4">Select Component</h3>
-                            <div class="space-y-3" id="asset-selector-group">
-                                <button onclick="load3DAsset('pipe')" id="btn-asset-pipe" class="w-full flex items-center justify-between text-left p-4 rounded-xl border-2 border-amber-600 bg-amber-600/5 dark:bg-amber-600/10 font-bold text-slate-900 dark:text-white transition">
+                            <div class="space-y-2 max-h-[350px] overflow-y-auto pr-2" id="asset-selector-group">
+                                <button onclick="load3DAsset('pipe')" id="btn-asset-pipe" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border-2 border-amber-600 bg-amber-600/5 dark:bg-amber-600/10 font-bold text-slate-900 dark:text-white transition">
                                     <span><i class="fas fa-circle-nodes mr-2 text-amber-600"></i> Insulated Pipeline</span>
                                     <i class="fas fa-chevron-right text-amber-600"></i>
                                 </button>
-                                <button onclick="load3DAsset('puf')" id="btn-asset-puf" class="w-full flex items-center justify-between text-left p-4 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                <button onclick="load3DAsset('puf')" id="btn-asset-puf" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
                                     <span><i class="fas fa-table-cells mr-2 text-slate-400"></i> Modular PUF Panel</span>
                                     <i class="fas fa-chevron-right text-slate-400"></i>
                                 </button>
-                                <button onclick="load3DAsset('lift')" id="btn-asset-lift" class="w-full flex items-center justify-between text-left p-4 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                <button onclick="load3DAsset('lift')" id="btn-asset-lift" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
                                     <span><i class="fas fa-elevator mr-2 text-slate-400"></i> Passenger Lift Cabin</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('scaffold')" id="btn-asset-scaffold" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-helmet-safety mr-2 text-slate-400"></i> Scaffolding Coupler</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('boiler')" id="btn-asset-boiler" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-gears mr-2 text-slate-400"></i> Water Tube Bundle</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('fire')" id="btn-asset-fire" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-fire-extinguisher mr-2 text-slate-400"></i> Pendant Sprinkler</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('cable')" id="btn-asset-cable" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-diagram-project mr-2 text-slate-400"></i> Ladder Cable Tray</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('roof')" id="btn-asset-roof" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-campground mr-2 text-slate-400"></i> Corrugated Roof Sheet</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('spray')" id="btn-asset-spray" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-paint-roller mr-2 text-slate-400"></i> Airless Spray Gun</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('fan')" id="btn-asset-fan" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-wind mr-2 text-slate-400"></i> Exhaust Fan & Duct</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('coldroom')" id="btn-asset-coldroom" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-icicles mr-2 text-slate-400"></i> Modular Cold Room</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('gate')" id="btn-asset-gate" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-left-right mr-2 text-slate-400"></i> Automated Sliding Gate</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('blast')" id="btn-asset-blast" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-gauge-high mr-2 text-slate-400"></i> Blasting Nozzle Tip</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('acoustic')" id="btn-asset-acoustic" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-volume-xmark mr-2 text-slate-400"></i> Sound Absorber Panel</span>
+                                    <i class="fas fa-chevron-right text-slate-400"></i>
+                                </button>
+                                <button onclick="load3DAsset('ahu')" id="btn-asset-ahu" class="w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition">
+                                    <span><i class="fas fa-box-open mr-2 text-slate-400"></i> Air Handling Unit (AHU)</span>
                                     <i class="fas fa-chevron-right text-slate-400"></i>
                                 </button>
                             </div>
@@ -1317,6 +1365,126 @@
                     <div><span class="block text-xs text-slate-400 font-bold uppercase">Capacity Limits</span><span class="font-semibold text-slate-800 dark:text-slate-200">6 to 26 Passengers (450kg - 2000kg)</span></div>
                     <div><span class="block text-xs text-slate-400 font-bold uppercase">Speed Index</span><span class="font-semibold text-slate-800 dark:text-slate-200">1.0 m/s to 2.5 m/s speed drives</span></div>
                 `
+            },
+            'scaffold': {
+                category: 'Scaffolding Systems',
+                title: 'Right-Angle Coupler',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Material Composition</span><span class="font-semibold text-slate-800 dark:text-slate-200">Drop Forged Steel (EN 74 Standards)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Load capacity</span><span class="font-semibold text-slate-800 dark:text-slate-200">9.1 kN Slip Resistance</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Pipe Compatibility</span><span class="font-semibold text-slate-800 dark:text-slate-200">48.3mm Scaffold Tubes</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Surface Finish</span><span class="font-semibold text-slate-800 dark:text-slate-200">Hot Dip Galvanised / Zinc Plated</span></div>
+                `
+            },
+            'boiler': {
+                category: 'Mechanical Works',
+                title: 'Water Tube Bundle',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Tube Specifications</span><span class="font-semibold text-slate-800 dark:text-slate-200">Seamless Carbon Steel (ASTM A192)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Pressure Capacity</span><span class="font-semibold text-slate-800 dark:text-slate-200">Up to 120 bar operating pressure</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Joinery Standards</span><span class="font-semibold text-slate-800 dark:text-slate-200">ASME Section I Boiler welds</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Corrosion Coating</span><span class="font-semibold text-slate-800 dark:text-slate-200">High-temp silicone primer protection</span></div>
+                `
+            },
+            'fire': {
+                category: 'Fire Fighting Systems',
+                title: 'Pendant Sprinkler',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Trigger Temp</span><span class="font-semibold text-slate-800 dark:text-slate-200">68°C (155°F) red liquid bulb release</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">K-Factor Rating</span><span class="font-semibold text-slate-800 dark:text-slate-200">K5.6 (80 metric standard size)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Body Material</span><span class="font-semibold text-slate-800 dark:text-slate-200">Chrome Cast Brass frame Deflector</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Compliance standards</span><span class="font-semibold text-slate-800 dark:text-slate-200">UL Listed & FM Approved safety ratings</span></div>
+                `
+            },
+            'cable': {
+                category: 'Electrical Systems',
+                title: 'Ladder Cable Tray',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Structure Style</span><span class="font-semibold text-slate-800 dark:text-slate-200">Ladder Type Heavy Duty Support</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Width Span</span><span class="font-semibold text-slate-800 dark:text-slate-200">150mm to 1000mm width sizes</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Material Type</span><span class="font-semibold text-slate-800 dark:text-slate-200">Pre-Galvanized Mild Steel / Stainless Steel</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Rung Spacings</span><span class="font-semibold text-slate-800 dark:text-slate-200">300mm standard rung spacing layouts</span></div>
+                `
+            },
+            'roof': {
+                category: 'Roof Sheeting',
+                title: 'Corrugated Decking Sheet',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Base Metal thickness</span><span class="font-semibold text-slate-800 dark:text-slate-200">0.50mm to 1.20mm High Tensile steel</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Corrugation Depth</span><span class="font-semibold text-slate-800 dark:text-slate-200">44mm / 75mm profile height design</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Coating Yield</span><span class="font-semibold text-slate-800 dark:text-slate-200">Zinc Coating Z275 (275 g/m²) limits</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Span Strengths</span><span class="font-semibold text-slate-800 dark:text-slate-200">Up to 3.5m unsupported span distances</span></div>
+                `
+            },
+            'spray': {
+                category: 'Industrial Painting',
+                title: 'Airless Spray Gun',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Max Fluid Pressure</span><span class="font-semibold text-slate-800 dark:text-slate-200">3600 PSI (248 bar maximum ratings)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Tip Sizes Used</span><span class="font-semibold text-slate-800 dark:text-slate-200">0.011" to 0.027" paint release tips</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Construction Metals</span><span class="font-semibold text-slate-800 dark:text-slate-200">Forge Aluminum Gun, Stainless Steel seat</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Trigger Layout</span><span class="font-semibold text-slate-800 dark:text-slate-200">4-finger lever pull with safety lock</span></div>
+                `
+            },
+            'fan': {
+                category: 'HVAC Ducting',
+                title: 'Exhaust Fan & Duct',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Housing Material</span><span class="font-semibold text-slate-800 dark:text-slate-200">Galvanised Sheet Steel square frames</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Air Volume Capacity</span><span class="font-semibold text-slate-800 dark:text-slate-200">2500 - 15000 m³/h delivery index</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Impeller Blades</span><span class="font-semibold text-slate-800 dark:text-slate-200">Axial Cast Aluminum, dynamically balanced</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Motor Class</span><span class="font-semibold text-slate-800 dark:text-slate-200">IP55 F-Class insulation electric motor</span></div>
+                `
+            },
+            'coldroom': {
+                category: 'Cold Rooms',
+                title: 'Modular Cold Room',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Room Temp Limits</span><span class="font-semibold text-slate-800 dark:text-slate-200">-30°C to +10°C custom chiller scales</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Panel Insulation</span><span class="font-semibold text-slate-800 dark:text-slate-200">100mm to 150mm PUF panel blocks</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Door Mechanism</span><span class="font-semibold text-slate-800 dark:text-slate-200">Hinged / Sliding with safety release lever</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Evaporator Defrost</span><span class="font-semibold text-slate-800 dark:text-slate-200">Auto electric heating defrost cycles</span></div>
+                `
+            },
+            'gate': {
+                category: 'Sliding Systems',
+                title: 'Automated Sliding Gate',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Drive Motor Gear</span><span class="font-semibold text-slate-800 dark:text-slate-200">Oil bath worm gear motor drive unit</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Max Weight Capacity</span><span class="font-semibold text-slate-800 dark:text-slate-200">Up to 2500 kg industrial gate limits</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Safety Mechanisms</span><span class="font-semibold text-slate-800 dark:text-slate-200">Dual photocells, mechanical safety edges</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Gate Materials</span><span class="font-semibold text-slate-800 dark:text-slate-200">Heavy structural MS hollow sections</span></div>
+                `
+            },
+            'blast': {
+                category: 'Surface Prep',
+                title: 'Blasting Nozzle Tip',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Internal Liner</span><span class="font-semibold text-slate-800 dark:text-slate-200">Boron Carbide / Tungsten Carbide jacket</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Air Jacket Thread</span><span class="font-semibold text-slate-800 dark:text-slate-200">50mm contractor coarse threads</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Orifice Diameter</span><span class="font-semibold text-slate-800 dark:text-slate-200">6.5mm, 8.0mm, 9.5mm sizes</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Venturi Design</span><span class="font-semibold text-slate-800 dark:text-slate-200">High velocity venturi tapered outputs</span></div>
+                `
+            },
+            'acoustic': {
+                category: 'Acoustic Insulation',
+                title: 'Sound Absorber Panel',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Panel core material</span><span class="font-semibold text-slate-800 dark:text-slate-200">Perforated steel enclosing Rockwool core</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Sound Absorption rating</span><span class="font-semibold text-slate-800 dark:text-slate-200">NRC 0.95 (Noise Reduction Coefficient)</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Perforated Face Rating</span><span class="font-semibold text-slate-800 dark:text-slate-200">22% open area perforated layout design</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Thickness Dimension</span><span class="font-semibold text-slate-800 dark:text-slate-200">50mm to 100mm panels thickness</span></div>
+                `
+            },
+            'ahu': {
+                category: 'HVAC Systems',
+                title: 'Air Handling Unit (AHU)',
+                specs: `
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Skin Structure panel</span><span class="font-semibold text-slate-800 dark:text-slate-200">Double skin 25mm PUF insulated casings</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Airflow Capacity Range</span><span class="font-semibold text-slate-800 dark:text-slate-200">5000 CFM to 40000 CFM limits</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Filter Stages</span><span class="font-semibold text-slate-800 dark:text-slate-200">Pre-filters + Fine filters + HEPA filter mounts</span></div>
+                    <div><span class="block text-xs text-slate-400 font-bold uppercase">Cooling Coils Type</span><span class="font-semibold text-slate-800 dark:text-slate-200">Copper tube grid with aluminum fins</span></div>
+                `
             }
         };
 
@@ -1400,6 +1568,14 @@
                     if (document.getElementById('ctrl-auto-rotate').checked && !isDragging) {
                         activeMesh.rotation.y += 0.008;
                     }
+
+                    // Spin fan blades if active model is exhaust fan
+                    if (activeMesh.userData.isFan) {
+                        const blades = activeMesh.getObjectByName("blades");
+                        if (blades) {
+                            blades.rotation.z += 0.05;
+                        }
+                    }
                 }
 
                 renderer.render(scene, camera);
@@ -1420,19 +1596,25 @@
         function load3DAsset(assetType) {
             loadingOverlay.classList.remove('opacity-0');
             
-            // Update Active buttons styling
-            const btnPipe = document.getElementById('btn-asset-pipe');
-            const btnPuf = document.getElementById('btn-asset-puf');
-            const btnLift = document.getElementById('btn-asset-lift');
-
-            [btnPipe, btnPuf, btnLift].forEach(btn => {
-                btn.className = "w-full flex items-center justify-between text-left p-4 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition";
-                btn.querySelector('i:last-child').className = "fas fa-chevron-right text-slate-400";
+            // Update Active buttons styling dynamically
+            const selectorGroup = document.getElementById('asset-selector-group');
+            const buttons = selectorGroup.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.className = "w-full flex items-center justify-between text-left p-3.5 rounded-xl border border-borderCol-light dark:border-borderCol-dark hover:border-amber-600 hover:bg-amber-600/5 dark:hover:bg-amber-600/10 font-bold text-slate-700 dark:text-slate-200 transition";
+                const chevron = btn.querySelector('i.fa-chevron-right');
+                if (chevron) {
+                    chevron.className = "fas fa-chevron-right text-slate-400";
+                }
             });
 
             const activeBtn = document.getElementById('btn-asset-' + assetType);
-            activeBtn.className = "w-full flex items-center justify-between text-left p-4 rounded-xl border-2 border-amber-600 bg-amber-600/5 dark:bg-amber-600/10 font-bold text-slate-900 dark:text-white transition";
-            activeBtn.querySelector('i:last-child').className = "fas fa-chevron-right text-amber-600";
+            if (activeBtn) {
+                activeBtn.className = "w-full flex items-center justify-between text-left p-3.5 rounded-xl border-2 border-amber-600 bg-amber-600/5 dark:bg-amber-600/10 font-bold text-slate-900 dark:text-white transition";
+                const chevron = activeBtn.querySelector('i.fa-chevron-right');
+                if (chevron) {
+                    chevron.className = "fas fa-chevron-right text-amber-600";
+                }
+            }
 
             // Update product details info
             const spec = assetSpecs[assetType];
@@ -1450,8 +1632,12 @@
 
                 // Material helper definitions
                 const metalMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.2 });
+                const brassMaterial = new THREE.MeshStandardMaterial({ color: 0xb5a642, metalness: 0.8, roughness: 0.2 });
                 const insulationMaterial = new THREE.MeshStandardMaterial({ color: 0xeab308, roughness: 0.9 }); // yellow PU foam
                 const darkMetal = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.4 });
+                const redGlass = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.1, opacity: 0.8, transparent: true, emissive: 0x550000 });
+                const rubberMaterial = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.8 });
+                const fanMaterial = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.9, roughness: 0.1 });
                 
                 if (assetType === 'pipe') {
                     // Constructnested cylinders to represent insulation cladding layers
@@ -1503,9 +1689,206 @@
 
                     // Vertical golden indicator bar
                     const indicatorGeo = new THREE.CylinderGeometry(0.04, 0.04, 2, 8);
-                    const indicatorMesh = new THREE.Mesh(indicatorGeo, new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.9, roughness: 0.1 }));
+                    const indicatorMesh = new THREE.Mesh(indicatorGeo, fanMaterial);
                     indicatorMesh.position.set(0.7, 0, 0.7);
                     group.add(indicatorMesh);
+
+                } else if (assetType === 'scaffold') {
+                    const pipeVert = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3, 16), metalMaterial);
+                    group.add(pipeVert);
+
+                    const pipeHoriz = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3, 16), metalMaterial);
+                    pipeHoriz.rotation.z = Math.PI / 2;
+                    pipeHoriz.position.z = 0.25;
+                    group.add(pipeHoriz);
+
+                    const clamp = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.35, 0.35), darkMetal);
+                    clamp.position.z = 0.12;
+                    group.add(clamp);
+
+                } else if (assetType === 'boiler') {
+                    for (let x = -0.8; x <= 0.81; x += 0.4) {
+                        const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 2.8, 16), darkMetal);
+                        tube.position.x = x;
+                        group.add(tube);
+                    }
+                    const braceTop = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.1, 0.2), metalMaterial);
+                    braceTop.position.y = 0.9;
+                    group.add(braceTop);
+
+                    const braceBottom = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.1, 0.2), metalMaterial);
+                    braceBottom.position.y = -0.9;
+                    group.add(braceBottom);
+
+                } else if (assetType === 'fire') {
+                    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.4, 16), brassMaterial);
+                    base.position.y = 0.6;
+                    group.add(base);
+
+                    const arms = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.05, 8, 24, Math.PI), brassMaterial);
+                    arms.rotation.z = -Math.PI / 2;
+                    arms.position.y = 0.3;
+                    group.add(arms);
+
+                    const bulb = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.35, 8), redGlass);
+                    bulb.position.y = 0.25;
+                    group.add(bulb);
+
+                    const deflector = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.04, 16), brassMaterial);
+                    deflector.position.y = -0.05;
+                    group.add(deflector);
+
+                } else if (assetType === 'cable') {
+                    const railLeft = new THREE.Mesh(new THREE.BoxGeometry(0.05, 3, 0.2), metalMaterial);
+                    railLeft.position.x = -0.6;
+                    group.add(railLeft);
+
+                    const railRight = new THREE.Mesh(new THREE.BoxGeometry(0.05, 3, 0.2), metalMaterial);
+                    railRight.position.x = 0.6;
+                    group.add(railRight);
+
+                    for (let y = -1.2; y <= 1.25; y += 0.5) {
+                        const rung = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.04, 0.04), metalMaterial);
+                        rung.position.y = y;
+                        group.add(rung);
+                    }
+
+                    const cabR = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 3, 12), redGlass);
+                    cabR.position.set(-0.3, 0, 0.06);
+                    group.add(cabR);
+
+                    const cabY = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 3, 12), insulationMaterial);
+                    cabY.position.set(0, 0, 0.06);
+                    group.add(cabY);
+
+                    const cabB = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 3, 12), new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: 0.3 }));
+                    cabB.position.set(0.3, 0, 0.06);
+                    group.add(cabB);
+
+                } else if (assetType === 'roof') {
+                    for (let x = -1.0; x <= 1.01; x += 0.4) {
+                        const ridge = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2.5, 0.1), metalMaterial);
+                        ridge.position.x = x;
+                        ridge.position.z = 0.08;
+                        group.add(ridge);
+
+                        const trough = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2.5, 0.02), metalMaterial);
+                        trough.position.x = x + 0.2;
+                        trough.position.z = -0.08;
+                        group.add(trough);
+                    }
+
+                } else if (assetType === 'spray') {
+                    const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 1.2, 16), metalMaterial);
+                    handle.position.y = -0.4;
+                    handle.rotation.z = -0.15;
+                    group.add(handle);
+
+                    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 1.4, 16), darkMetal);
+                    barrel.rotation.z = Math.PI / 2;
+                    barrel.position.x = 0.2;
+                    group.add(barrel);
+
+                    const trigger = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.6, 0.08), metalMaterial);
+                    trigger.position.set(-0.15, -0.2, 0);
+                    trigger.rotation.z = -0.2;
+                    group.add(trigger);
+
+                    const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.06, 0.4, 12), brassMaterial);
+                    nozzle.rotation.z = Math.PI / 2;
+                    nozzle.position.x = 0.9;
+                    group.add(nozzle);
+
+                } else if (assetType === 'fan') {
+                    const casing = new THREE.Mesh(new THREE.BoxGeometry(2.0, 2.0, 0.6), darkMetal);
+                    group.add(casing);
+
+                    const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.5, 16), metalMaterial);
+                    motor.rotation.x = Math.PI / 2;
+                    group.add(motor);
+
+                    const bladesGroup = new THREE.Group();
+                    bladesGroup.position.z = 0.2;
+                    bladesGroup.name = "blades";
+
+                    for (let i = 0; i < 4; i++) {
+                        const blade = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.16, 0.02), fanMaterial);
+                        blade.rotation.z = (Math.PI / 2) * i;
+                        blade.position.x = Math.cos(blade.rotation.z) * 0.4;
+                        blade.position.y = Math.sin(blade.rotation.z) * 0.4;
+                        bladesGroup.add(blade);
+                    }
+                    group.add(bladesGroup);
+                    group.userData.isFan = true;
+
+                } else if (assetType === 'coldroom') {
+                    const room = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.0, 2.0), metalMaterial);
+                    group.add(room);
+
+                    const door = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.8, 0.1), new THREE.MeshStandardMaterial({ color: 0x1e3a8a, metalness: 0.5 }));
+                    door.position.set(0.3, 0, 1.0);
+                    group.add(door);
+
+                    const handle = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.6, 0.06), metalMaterial);
+                    handle.position.set(-0.05, 0, 1.1);
+                    group.add(handle);
+
+                    const condenser = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.4, 0.6), darkMetal);
+                    condenser.position.set(0, 1.1, 0);
+                    group.add(condenser);
+
+                } else if (assetType === 'gate') {
+                    const track = new THREE.Mesh(new THREE.BoxGeometry(3.0, 0.06, 0.15), metalMaterial);
+                    track.position.y = -0.9;
+                    group.add(track);
+
+                    const gateFrame = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.6, 0.06), darkMetal);
+                    gateFrame.position.y = -0.05;
+                    group.add(gateFrame);
+
+                    for (let x = -1.0; x <= 1.01; x += 0.25) {
+                        const bar = new THREE.Mesh(new THREE.BoxGeometry(0.02, 1.5, 0.02), metalMaterial);
+                        bar.position.set(x, -0.05, 0.01);
+                        group.add(bar);
+                    }
+
+                } else if (assetType === 'blast') {
+                    const hose = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 1.6, 16), rubberMaterial);
+                    hose.position.y = 0.5;
+                    group.add(hose);
+
+                    const coupler = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.2, 16), metalMaterial);
+                    coupler.position.y = -0.35;
+                    group.add(coupler);
+
+                    const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.07, 0.8, 16), brassMaterial);
+                    nozzle.position.y = -0.8;
+                    group.add(nozzle);
+
+                } else if (assetType === 'acoustic') {
+                    const frame = new THREE.Mesh(new THREE.BoxGeometry(2.0, 1.4, 0.3), metalMaterial);
+                    group.add(frame);
+
+                    const core = new THREE.Mesh(new THREE.BoxGeometry(1.9, 1.3, 0.26), insulationMaterial);
+                    group.add(core);
+
+                } else if (assetType === 'ahu') {
+                    const cabinet = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.6, 1.6), metalMaterial);
+                    group.add(cabinet);
+
+                    const collarL = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.2, 24), darkMetal);
+                    collarL.rotation.z = Math.PI / 2;
+                    collarL.position.x = -1.3;
+                    group.add(collarL);
+
+                    const collarR = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.2, 24), darkMetal);
+                    collarR.rotation.z = Math.PI / 2;
+                    collarR.position.x = 1.3;
+                    group.add(collarR);
+
+                    const windowFrame = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 0.05), darkMetal);
+                    windowFrame.position.set(0, 0, 0.81);
+                    group.add(windowFrame);
                 }
 
                 activeMesh = group;
