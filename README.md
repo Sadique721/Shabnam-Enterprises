@@ -32,6 +32,17 @@
 </tr>
 </table>
 
+<!-- ========== NEW: SYSTEM DIAGRAM SECTION ========== -->
+## 📊 System Architecture & Workflow
+
+```mermaid
+flowchart LR
+    A[Wholesale Buyer] --> B[Shabnam Business Portal]
+    B --> C[Product Catalog Showcase]
+    B --> D[Enquiry/Contact Forms]
+    D --> E[Enterprise Sales Desk]
+```
+
 ---
 
 # 🏆 SHABNAM ENTERPRISES — Industrial Contracting & Workforce Solutions
